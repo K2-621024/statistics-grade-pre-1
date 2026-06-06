@@ -13,6 +13,11 @@ type Props = {
   onOpenStatTable?: () => void;
 };
 
+type AnswerState =
+  | { phase: "idle" }
+  | { phase: "pending"; selectedId: string }
+  | { phase: "answered"; selectedId: string; isCorrect: boolean };
+
 export default function QuestionCard({
   question,
   onAnswer,
@@ -21,27 +26,43 @@ export default function QuestionCard({
   requiresStatTable = false,
   onOpenStatTable,
 }: Props) {
-  const [selected, setSelected] = useState<string | null>(null);
-  const answered = selected !== null;
+  const [state, setState] = useState<AnswerState>({ phase: "idle" });
 
   function handleSelect(opt: Option) {
-    if (answered) return;
-    setSelected(opt.id);
+    if (state.phase !== "idle") return;
+    setState({ phase: "pending", selectedId: opt.id });
+  }
+
+  function handleConfirm() {
+    if (state.phase !== "pending") return;
+    const opt = question.options.find((o) => o.id === state.selectedId);
+    if (!opt) return;
+    setState({ phase: "answered", selectedId: state.selectedId, isCorrect: opt.isCorrect });
     onAnswer(opt.isCorrect);
   }
 
   function optionStyle(opt: Option): string {
-    if (!answered) {
-      return "bg-white border-gray-200 hover:bg-blue-50 hover:border-blue-300 cursor-pointer";
+    if (state.phase === "idle") {
+      return "bg-white border-gray-200 text-gray-900 hover:bg-blue-50 hover:border-blue-300 cursor-pointer";
     }
+    if (state.phase === "pending") {
+      if (opt.id === state.selectedId) {
+        return "bg-blue-50 border-blue-500 text-gray-900 cursor-pointer";
+      }
+      return "bg-white border-gray-200 text-gray-900 hover:bg-blue-50 hover:border-blue-300 cursor-pointer";
+    }
+    // answered
     if (opt.isCorrect) {
       return "bg-green-50 border-green-400 text-green-800";
     }
-    if (opt.id === selected) {
+    if (opt.id === state.selectedId) {
       return "bg-red-50 border-red-400 text-red-800";
     }
     return "bg-white border-gray-200 text-gray-400";
   }
+
+  const answered = state.phase === "answered";
+  const pending = state.phase === "pending";
 
   return (
     <div className="bg-white rounded-xl shadow p-4">
@@ -72,23 +93,34 @@ export default function QuestionCard({
           <button
             key={opt.id}
             onClick={() => handleSelect(opt)}
+            disabled={answered}
             className={`w-full text-left border-2 rounded-lg px-4 py-3 text-sm transition-all flex items-start gap-3 ${optionStyle(opt)}`}
           >
             <span className="font-bold min-w-[1.2rem]">{opt.id}.</span>
-            <span className="flex-1 break-all">
+            <span className="flex-1">
               <MathText text={opt.text} />
             </span>
             {answered && opt.isCorrect && (
               <CheckCircle size={18} className="text-green-500 shrink-0 mt-0.5" />
             )}
-            {answered && opt.id === selected && !opt.isCorrect && (
+            {answered && opt.id === state.selectedId && !opt.isCorrect && (
               <XCircle size={18} className="text-red-500 shrink-0 mt-0.5" />
             )}
           </button>
         ))}
       </div>
 
-      {/* 解説 */}
+      {/* 回答するボタン（pending 時） */}
+      {pending && (
+        <button
+          onClick={handleConfirm}
+          className="mt-4 w-full bg-blue-600 text-white font-semibold rounded-lg py-3 hover:bg-blue-700 transition-colors"
+        >
+          回答する
+        </button>
+      )}
+
+      {/* 解説（answered 時） */}
       {answered && (
         <div className="mt-4 bg-yellow-50 border border-yellow-200 rounded-lg p-3 text-sm text-gray-700">
           <p className="font-semibold text-yellow-800 mb-1">解説</p>
@@ -96,7 +128,7 @@ export default function QuestionCard({
         </div>
       )}
 
-      {/* 次へボタン */}
+      {/* 次へボタン（answered 時） */}
       {answered && (
         <button
           onClick={onNext}

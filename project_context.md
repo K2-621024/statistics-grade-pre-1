@@ -31,13 +31,13 @@
 
 | ID | 優先度 | 大分類 | 中分類 | 施策内容 | 想定作業量 | 実現可能性 | ステータス |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| T001 | 高 | stat-prep-app | UX改善 | 問題間で直前の問題の正答と解説を確認してから次へ進む導線に変更する | 小 | 高 | Not Started |
-| T002 | 高 | stat-prep-app | UX改善 | 選択肢タップ → 「回答する」ボタン押下 → 正誤表示、という2ステップ導線に変更する | 小 | 高 | Not Started |
-| T003 | 高 | stat-prep-app | UX改善 | 選択肢テキストの文字色が薄すぎるため視認性を改善する | 小 | 高 | Not Started |
-| T004 | 高 | stat-prep-app | バグ修正 | ScenarioBanner に分布名が表示されており Q1（分布名を問う問題）の答えがリークしている | 小 | 高 | Not Started |
-| T005 | 高 | stat-prep-app | バグ修正 | 選択肢の数式が LaTeX 記法のまま表示されている（KaTeX でレンダリングされていない） | 小 | 高 | Not Started |
-| T006 | 高 | stat-prep-app | 環境整備 | スマートフォンで動作確認できる環境を整える（Vercel デプロイ推奨） | 小 | 高 | Not Started |
+| T001 | 高 | stat-prep-app | UX改善 | 問題間で直前の問題の正答と解説を確認してから次へ進む導線に変更する | 小 | 高 | Completed |
+| T002 | 高 | stat-prep-app | UX改善 | 選択肢タップ → 「回答する」ボタン押下 → 正誤表示、という2ステップ導線に変更する | 小 | 高 | Completed |
+| T003 | 高 | stat-prep-app | UX改善 | 選択肢テキストの文字色が薄すぎるため視認性を改善する | 小 | 高 | Completed |
+| T004 | 高 | stat-prep-app | バグ修正 | ScenarioBanner に分布名が表示されており Q1（分布名を問う問題）の答えがリークしている | 小 | 高 | Completed |
+| T005 | 高 | stat-prep-app | バグ修正 | 選択肢の数式が LaTeX 記法のまま表示されている（KaTeX でレンダリングされていない） | 小 | 高 | Completed |
+| T006 | 高 | stat-prep-app | 環境整備 | スマートフォンで動作確認できる環境を整える（Vercel デプロイ推奨） | 小 | 高 | In Progress |
 | T007 | 中 | stat-prep-app | コンテンツ | constants.ts の CHEAT_SHEET_TEXTS に第6章以降のチートシートテキストを追加する | 中 | 高 | Not Started |
 | T008 | 中 | stat-prep-app | テスト | npm run build && npm run start で PWA 本番モード（Service Worker・オフライン）の動作を確認する | 小 | 高 | Not Started |
 | T009 | 中 | stat-prep-app | データ整備 | ch06.json（連続分布・標本分布）の question_format を作成してアプリに追加する | 大 | 高 | Not Started |
-| T010 | 低 | 演習問題 | コンテンツ | ch0_Template.md のフォーマットに従って ch7〜ch32 の演習問題ファイルを順次作成する | 大 | 高 | Not Started |
+| T010 | 低 | 演習問題 | コンテンツ | ch0_Template.md のフォーマットに従って ch7〜ch32 の演習問題ファイルを順次作成する | 大 | 高 | In Progress |

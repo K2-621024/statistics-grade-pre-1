@@ -80,12 +80,16 @@ export default function HomePage() {
 
   function handleAnswer(isCorrect: boolean) {
     if (mode.kind !== "session") return;
-    const newAnswers = [...mode.answers, isCorrect];
+    setMode({ ...mode, answers: [...mode.answers, isCorrect] });
+  }
+
+  function handleNext() {
+    if (mode.kind !== "session") return;
     const atLast = mode.qIndex >= mode.set.questions.length - 1;
     if (atLast) {
-      setMode({ kind: "result", set: mode.set, answers: newAnswers });
+      setMode({ kind: "result", set: mode.set, answers: mode.answers });
     } else {
-      setMode({ ...mode, answers: newAnswers, qIndex: mode.qIndex + 1 });
+      setMode({ ...mode, qIndex: mode.qIndex + 1 });
     }
   }
 
@@ -134,6 +138,7 @@ export default function HomePage() {
     const { set, qIndex } = mode;
     const question = set.questions[qIndex];
     const isLast = qIndex >= set.questions.length - 1;
+    const maskName = question.typeId === "distribution_name";
 
     return (
       <main className="min-h-screen flex flex-col pb-20">
@@ -143,12 +148,13 @@ export default function HomePage() {
             scenario={set.scenario}
             current={qIndex + 1}
             total={set.questions.length}
+            maskName={maskName}
           />
           <QuestionCard
             key={`${set.distributionId}-${qIndex}`}
             question={question}
             onAnswer={handleAnswer}
-            onNext={() => {}}
+            onNext={handleNext}
             isLast={isLast}
             onOpenStatTable={() => setShowStatTable(true)}
           />

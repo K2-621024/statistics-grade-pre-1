@@ -59,6 +59,10 @@ export type QuestionSet = {
 };
 
 // ─── ユーティリティ ───────────────────────────────────────
+function wrapMath(s: string): string {
+  return s.startsWith("$") ? s : `$${s}$`;
+}
+
 function randomElement<T>(arr: T[]): T {
   return arr[Math.floor(Math.random() * arr.length)];
 }
@@ -123,11 +127,11 @@ export function generateQuestionSet(formatData: ChapterFormat): QuestionSet {
 
       const wrongOptions = shuffleArray(formulaSet.distractors)
         .slice(0, 4)
-        .map((d) => ({ text: d, isCorrect: false }));
+        .map((d) => ({ text: wrapMath(d), isCorrect: false }));
 
       options = assignOptionLabels(
         shuffleArray([
-          { text: formulaSet.correct, isCorrect: true },
+          { text: wrapMath(formulaSet.correct), isCorrect: true },
           ...wrongOptions,
         ])
       );
