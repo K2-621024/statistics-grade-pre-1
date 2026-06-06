@@ -1,0 +1,563 @@
+{
+  "chapter": 5,
+  "title": "離散型分布",
+  "category": "確率と確率分布",
+  "phase": 1,
+  "question_types": [
+    {
+      "id": "distribution_name",
+      "label": "分布の名称",
+      "question_template": "次のシナリオに最も適した確率分布はどれか。"
+    },
+    {
+      "id": "pmf",
+      "label": "確率関数",
+      "question_template": "上のシナリオで {{distribution_name}} に従う確率変数 $X$ の確率関数 $P(X=k)$ として正しいものを選べ。"
+    },
+    {
+      "id": "pgf",
+      "label": "確率母関数",
+      "question_template": "上のシナリオで {{distribution_name}} に従う確率変数 $X$ の確率母関数 $G_X(s) = E[s^X]$ として正しいものを選べ。"
+    },
+    {
+      "id": "expected_value",
+      "label": "期待値",
+      "question_template": "上のシナリオで {{distribution_name}} に従う確率変数 $X$ の期待値 $E[X]$ として正しいものを選べ。"
+    },
+    {
+      "id": "variance",
+      "label": "分散",
+      "question_template": "上のシナリオで {{distribution_name}} に従う確率変数 $X$ の分散 $V[X]$ として正しいものを選べ。"
+    }
+  ],
+  "distributions": [
+    {
+      "id": "discrete_uniform",
+      "name": "離散一様分布",
+      "notation": "U\\{1,\\ldots,n\\}",
+      "applicable_question_types": [
+        "distribution_name",
+        "pmf",
+        "pgf",
+        "expected_value",
+        "variance"
+      ],
+      "keywords": "$1$ から $n$ までの各整数値が等確率 $1/n$ で発生する場面（くじ・カード・サイコロなど）",
+      "scenarios": [
+        "$1$ から $n$ までの整数が書かれた $n$ 枚のカードから1枚を無作為に選ぶ。選ばれたカードの番号を $X$ とするとき",
+        "$n$ 面のサイコロを1回振る。出た目を $X$ とするとき",
+        "$n$ 個の賞品番号のくじから1枚を無作為に引く。引いた番号を $X$ とするとき",
+        "コンピュータが $1$ から $n$ の整数を等確率でランダムに生成する。生成された値を $X$ とするとき",
+        "円形ルーレットが $n$ 等分されており、針は各番号に均等に停まる。停まった番号を $X$ とするとき",
+        "$n$ 名のチームから代表者を1人無作為に選ぶ。選ばれた人の番号（$1\\sim n$）を $X$ とするとき",
+        "製造番号 $1\\sim n$ が付いた製品の中から1個を無作為に選ぶ。選ばれた製造番号を $X$ とするとき",
+        "バスの発車時刻まで $1\\sim n$ 分の整数値で均等に待ち時間がある。待ち時間を $X$ とするとき",
+        "学籍番号 $1\\sim n$ の学生から1人を抽選する。当選した学籍番号を $X$ とするとき",
+        "$n$ 種類のオプションから1つを等確率でシステムが自動選択する。選ばれたオプション番号を $X$ とするとき"
+      ],
+      "pmf": {
+        "correct": "P(X=k) = \\dfrac{1}{n} \\quad (k=1,2,\\ldots,n)",
+        "explanation": "離散一様分布では全ての値が等確率 $1/n$ で発生する。",
+        "distractors": [
+          "P(X=k) = \\dfrac{\\lambda^k e^{-\\lambda}}{k!}",
+          "P(X=k) = \\dbinom{n}{k}p^k(1-p)^{n-k}",
+          "P(X=k) = (1-p)^{k-1}p",
+          "P(X=k) = \\dfrac{2k}{n(n+1)}",
+          "P(X=k) = \\dfrac{k}{n}"
+        ]
+      },
+      "pgf": {
+        "correct": "G_X(s) = \\dfrac{s(1-s^n)}{n(1-s)}",
+        "explanation": "$G_X(s)=\\sum_{k=1}^n s^k \\cdot \\frac{1}{n}$ は等比数列の和であり、$G_X(s)=\\frac{s(1-s^n)}{n(1-s)}$ となる。",
+        "distractors": [
+          "G_X(s) = e^{\\lambda(s-1)}",
+          "G_X(s) = \\{(1-p)+ps\\}^n",
+          "G_X(s) = \\dfrac{ps}{1-(1-p)s}",
+          "G_X(s) = (1-p)+ps",
+          "G_X(s) = \\dfrac{s^n(1-s)}{n(1-s^n)}"
+        ]
+      },
+      "expected_value": {
+        "correct": "E[X] = \\dfrac{n+1}{2}",
+        "explanation": "$E[X]=G_X'(1)=\\frac{1}{n}\\sum_{k=1}^n k = \\frac{n+1}{2}$",
+        "distractors": [
+          "E[X] = \\lambda",
+          "E[X] = np",
+          "E[X] = \\dfrac{1}{p}",
+          "E[X] = \\dfrac{n}{2}",
+          "E[X] = \\dfrac{n-1}{2}"
+        ]
+      },
+      "variance": {
+        "correct": "V[X] = \\dfrac{n^2-1}{12}",
+        "explanation": "$V[X]=\\frac{(n+1)(n-1)}{12}=\\frac{n^2-1}{12}$",
+        "distractors": [
+          "V[X] = \\lambda",
+          "V[X] = np(1-p)",
+          "V[X] = \\dfrac{1-p}{p^2}",
+          "V[X] = \\dfrac{n^2}{12}",
+          "V[X] = \\dfrac{n^2+1}{12}"
+        ]
+      }
+    },
+    {
+      "id": "hypergeometric",
+      "name": "超幾何分布",
+      "notation": "HG(N,M,n)",
+      "applicable_question_types": [
+        "distribution_name",
+        "pmf",
+        "expected_value",
+        "variance"
+      ],
+      "keywords": "総数 $N$ 個のうち $M$ 個が特性を持つ集団から、$n$ 個を**非復元抽出**する場面",
+      "scenarios": [
+        "$N$ 個の製品ロットに $M$ 個の不良品がある。$n$ 個を非復元抽出する。不良品の個数を $X$ とするとき",
+        "$N$ 枚のトランプのうち $M$ 枚がハート。$n$ 枚を同時に無作為に抜き出す。ハートの枚数を $X$ とするとき",
+        "$N$ 人の委員会メンバーのうち $M$ 人が女性。$n$ 人を無作為に選ぶ。女性の数を $X$ とするとき",
+        "$N$ 個の球のうち $M$ 個が赤球。$n$ 個を非復元抽出する。赤球の個数を $X$ とするとき",
+        "$N$ 匹の魚がいる池の $M$ 匹に標識を付けた。$n$ 匹を捕獲する。標識付きの個数を $X$ とするとき",
+        "$N$ 名の学生のうち $M$ 名が合格者。$n$ 名を無作為に選ぶ。合格者数を $X$ とするとき",
+        "$N$ 個の商品のうち $M$ 個が割引対象。$n$ 個を非復元で抽出する。割引対象品の個数を $X$ とするとき",
+        "$N$ 個の箱のうち $M$ 個に景品が入っている。$n$ 個を同時に選ぶ。景品入りの個数を $X$ とするとき",
+        "$N$ 件のデータのうち $M$ 件が欠損値。$n$ 件をランダムに抽出する。欠損値の件数を $X$ とするとき",
+        "$N$ 枚のカードのうち $M$ 枚が当たり。$n$ 枚を非復元で抽選する。当たりの枚数を $X$ とするとき"
+      ],
+      "pmf": {
+        "correct": "P(X=k) = \\dfrac{\\dbinom{M}{k}\\dbinom{N-M}{n-k}}{\\dbinom{N}{n}} \\quad (k=0,1,\\ldots,\\min(M,n))",
+        "explanation": "$N$ 個から $n$ 個を選ぶ全組み合わせ $\\binom{N}{n}$ のうち、不良品 $M$ 個から $k$ 個、良品 $(N-M)$ 個から $(n-k)$ 個選ぶ組み合わせの割合。",
+        "distractors": [
+          "P(X=k) = \\dfrac{\\lambda^k e^{-\\lambda}}{k!}",
+          "P(X=k) = \\dbinom{n}{k}p^k(1-p)^{n-k}",
+          "P(X=k) = (1-p)^{k-1}p",
+          "P(X=k) = \\dfrac{\\dbinom{N}{k}\\dbinom{M}{n-k}}{\\dbinom{N+M}{n}}",
+          "P(X=k) = \\dfrac{\\dbinom{M}{k}\\dbinom{N}{n-k}}{\\dbinom{N+M}{n}}"
+        ]
+      },
+      "expected_value": {
+        "correct": "E[X] = n\\cdot\\dfrac{M}{N}",
+        "explanation": "超幾何分布の期待値は $n \\cdot \\frac{M}{N}$。二項分布の期待値 $np$ と同形で、$p=M/N$ に対応する。",
+        "distractors": [
+          "E[X] = \\lambda",
+          "E[X] = np",
+          "E[X] = \\dfrac{1}{p}",
+          "E[X] = n\\cdot\\dfrac{M}{N-M}",
+          "E[X] = M\\cdot\\dfrac{n}{N}"
+        ]
+      },
+      "variance": {
+        "correct": "V[X] = n\\cdot\\dfrac{M}{N}\\cdot\\left(1-\\dfrac{M}{N}\\right)\\cdot\\dfrac{N-n}{N-1}",
+        "explanation": "二項分布の分散 $np(1-p)$ に有限母集団修正 $\\frac{N-n}{N-1}$ を掛けた形。",
+        "distractors": [
+          "V[X] = np(1-p)",
+          "V[X] = \\lambda",
+          "V[X] = \\dfrac{1-p}{p^2}",
+          "V[X] = n\\cdot\\dfrac{M}{N}\\cdot\\left(1-\\dfrac{M}{N}\\right)",
+          "V[X] = n\\cdot\\dfrac{M}{N}\\cdot\\left(1-\\dfrac{M}{N}\\right)\\cdot\\dfrac{N+n}{N+1}"
+        ]
+      }
+    },
+    {
+      "id": "poisson",
+      "name": "ポアソン分布",
+      "notation": "Po(\\lambda)",
+      "applicable_question_types": [
+        "distribution_name",
+        "pmf",
+        "pgf",
+        "expected_value",
+        "variance"
+      ],
+      "keywords": "単位時間・単位面積あたりの平均発生回数 $\\lambda$ が既知で、まれな事象が独立に発生する場面",
+      "scenarios": [
+        "ある工場のカスタマーサポートには、1時間あたり平均 $\\lambda$ 件の問い合わせが入る。1時間の着信件数を $X$ とするとき",
+        "市内の交差点において、1日あたり平均 $\\lambda$ 件の交通事故が発生する。ある1日の事故件数を $X$ とするとき",
+        "ある放射性物質が1分間に平均 $\\lambda$ 個の粒子を放出する。1分間の放出粒子数を $X$ とするとき",
+        "ある書籍の1ページあたり平均 $\\lambda$ 個の誤字が含まれる。任意の1ページの誤字数を $X$ とするとき",
+        "ある銀行窓口に、1時間あたり平均 $\\lambda$ 人の顧客が到着する。1時間の来客数を $X$ とするとき",
+        "あるWebサーバーに、1秒あたり平均 $\\lambda$ 回のリクエストが来る。ある1秒間のリクエスト数を $X$ とするとき",
+        "製造ライン1000mあたり平均 $\\lambda$ 箇所の欠陥が発生する。製品1000mの欠陥箇所数を $X$ とするとき",
+        "救急病院に、1時間あたり平均 $\\lambda$ 人の重症患者が搬送される。ある1時間の搬送人数を $X$ とするとき",
+        "ある生態系において、1日あたり平均 $\\lambda$ 頭の動物が罠にかかる。ある1日の捕獲数を $X$ とするとき",
+        "コールセンターで、1分間あたり平均 $\\lambda$ 件の苦情電話が来る。1分間の苦情件数を $X$ とするとき"
+      ],
+      "pmf": {
+        "correct": "P(X=k) = \\dfrac{\\lambda^k e^{-\\lambda}}{k!} \\quad (k=0,1,2,\\ldots)",
+        "explanation": "ポアソン分布の確率関数。分母の $k!$ と指数部の符号（$e^{-\\lambda}$）に注意。",
+        "distractors": [
+          "P(X=k) = \\dfrac{e^{\\lambda}\\lambda^k}{k!}",
+          "P(X=k) = \\dfrac{\\lambda^k e^{-\\lambda}}{(k+1)!}",
+          "P(X=k) = \\dbinom{n}{k}p^k(1-p)^{n-k}",
+          "P(X=k) = (1-p)^{k-1}p",
+          "P(X=k) = \\dfrac{1}{n}"
+        ]
+      },
+      "pgf": {
+        "correct": "G_X(s) = e^{\\lambda(s-1)}",
+        "explanation": "$G_X(s) = e^{-\\lambda}\\sum_{k=0}^\\infty \\frac{(\\lambda s)^k}{k!} = e^{-\\lambda}\\cdot e^{\\lambda s} = e^{\\lambda(s-1)}$",
+        "distractors": [
+          "G_X(s) = e^{\\lambda(s+1)}",
+          "G_X(s) = e^{-\\lambda(s-1)}",
+          "G_X(s) = \\{(1-p)+ps\\}^n",
+          "G_X(s) = \\dfrac{ps}{1-(1-p)s}",
+          "G_X(s) = (1-p)+ps"
+        ]
+      },
+      "expected_value": {
+        "correct": "E[X] = \\lambda",
+        "explanation": "$E[X]=G_X'(1)=\\lambda e^{\\lambda(1-1)}=\\lambda$。ポアソン分布では期待値＝分散＝$\\lambda$。",
+        "distractors": [
+          "E[X] = \\lambda^2",
+          "E[X] = np",
+          "E[X] = \\dfrac{1}{p}",
+          "E[X] = \\dfrac{n+1}{2}",
+          "E[X] = \\dfrac{r}{p}"
+        ]
+      },
+      "variance": {
+        "correct": "V[X] = \\lambda",
+        "explanation": "ポアソン分布の重要性質：期待値＝分散＝$\\lambda$。",
+        "distractors": [
+          "V[X] = \\lambda^2",
+          "V[X] = np(1-p)",
+          "V[X] = \\dfrac{1-p}{p^2}",
+          "V[X] = \\dfrac{n^2-1}{12}",
+          "V[X] = p(1-p)"
+        ]
+      }
+    },
+    {
+      "id": "bernoulli",
+      "name": "ベルヌーイ分布",
+      "notation": "Be(p)",
+      "applicable_question_types": [
+        "distribution_name",
+        "pmf",
+        "pgf",
+        "expected_value",
+        "variance"
+      ],
+      "keywords": "1回の試行で成功（$X=1$）か失敗（$X=0$）かの2値をとる最も基本的な分布",
+      "scenarios": [
+        "購入確率 $p$ の顧客1人がサイトを1回訪問する。購入なら $X=1$、しない場合を $X=0$ とするとき",
+        "打率 $p$ の野球選手が1打席に立つ。ヒットなら $X=1$、アウトなら $X=0$ とするとき",
+        "コイン1枚を1回投げる。表が出る確率を $p$ とする。表なら $X=1$、裏なら $X=0$ とするとき",
+        "生産された製品1個が良品である確率が $p$。良品なら $X=1$、不良品なら $X=0$ とするとき",
+        "薬の1回投与で患者が回復する確率が $p$。回復なら $X=1$、しない場合を $X=0$ とするとき",
+        "メール開封率が $p$ の顧客に1通送る。開封なら $X=1$、未開封なら $X=0$ とするとき",
+        "試験の1問を正解できる確率が $p$ の学生が1問に答える。正解なら $X=1$、誤答なら $X=0$ とするとき",
+        "クリック率 $p$ のユーザーに広告を1回表示する。クリックなら $X=1$、しない場合を $X=0$ とするとき",
+        "種を1粒まいたとき発芽する確率が $p$。発芽なら $X=1$、発芽しない場合を $X=0$ とするとき",
+        "1レースで馬が1着になる確率が $p$。1着なら $X=1$、それ以外なら $X=0$ とするとき"
+      ],
+      "pmf": {
+        "correct": "P(X=k) = p^k(1-p)^{1-k} \\quad (k \\in \\{0,1\\})",
+        "explanation": "$k=1$ のとき $P=p$、$k=0$ のとき $P=1-p$。$p^k(1-p)^{1-k}$ の形で統一できる。",
+        "distractors": [
+          "P(X=k) = \\dfrac{\\lambda^k e^{-\\lambda}}{k!}",
+          "P(X=k) = \\dbinom{n}{k}p^k(1-p)^{n-k}",
+          "P(X=k) = (1-p)^{k-1}p",
+          "P(X=k) = p(1-p)^k",
+          "P(X=k) = (1-p)^k p^{1-k}"
+        ]
+      },
+      "pgf": {
+        "correct": "G_X(s) = (1-p)+ps",
+        "explanation": "$G_X(s)=s^0(1-p)+s^1\\cdot p = (1-p)+ps$",
+        "distractors": [
+          "G_X(s) = e^{\\lambda(s-1)}",
+          "G_X(s) = \\{(1-p)+ps\\}^n",
+          "G_X(s) = \\dfrac{ps}{1-(1-p)s}",
+          "G_X(s) = ps+(1-p)s^{-1}",
+          "G_X(s) = p+(1-p)s"
+        ]
+      },
+      "expected_value": {
+        "correct": "E[X] = p",
+        "explanation": "$E[X]=G_X'(1)=p$。確率 $p$ でのみ $X=1$ をとる分布の自然な期待値。",
+        "distractors": [
+          "E[X] = p^2",
+          "E[X] = np",
+          "E[X] = \\lambda",
+          "E[X] = 1-p",
+          "E[X] = 2p-1"
+        ]
+      },
+      "variance": {
+        "correct": "V[X] = p(1-p)",
+        "explanation": "$V[X]=G_X''(1)+G_X'(1)-\\{G_X'(1)\\}^2=0+p-p^2=p(1-p)$",
+        "distractors": [
+          "V[X] = p^2(1-p)",
+          "V[X] = np(1-p)",
+          "V[X] = \\lambda",
+          "V[X] = \\dfrac{1-p}{p^2}",
+          "V[X] = p(1-p)^2"
+        ]
+      }
+    },
+    {
+      "id": "binomial",
+      "name": "二項分布",
+      "notation": "B(n,p)",
+      "applicable_question_types": [
+        "distribution_name",
+        "pmf",
+        "pgf",
+        "expected_value",
+        "variance"
+      ],
+      "keywords": "独立な $n$ 回のベルヌーイ試行で成功する回数；成功確率 $p$ が一定",
+      "scenarios": [
+        "購入確率 $p$ の顧客が $n$ 人サイトを訪問した。購入した人数を $X$ とするとき",
+        "1回の試験で合格する確率が $p$ の受験者が $n$ 人受験した。合格者数を $X$ とするとき",
+        "不良品率 $p$ の生産ラインで $n$ 個の製品を製造した。不良品の個数を $X$ とするとき",
+        "命中率 $p$ の選手が $n$ 回シュートを打った。命中した回数を $X$ とするとき",
+        "発芽率 $p$ の種を $n$ 粒まいた。発芽した粒数を $X$ とするとき",
+        "返答率 $p$ のアンケートを $n$ 人に送った。回答が得られた件数を $X$ とするとき",
+        "広告クリック率 $p$ のユーザーに $n$ 回広告を表示した。クリックされた回数を $X$ とするとき",
+        "治癒率 $p$ の薬を $n$ 名の患者に投与した。回復した患者数を $X$ とするとき",
+        "正解確率 $p$ の問題が $n$ 問ある。正解できた問題数を $X$ とするとき",
+        "開封確率 $p$ でメールを $n$ 通送った。開封されたメール数を $X$ とするとき"
+      ],
+      "pmf": {
+        "correct": "P(X=k) = \\dbinom{n}{k}p^k(1-p)^{n-k} \\quad (k=0,1,\\ldots,n)",
+        "explanation": "$n$ 回の独立試行で $k$ 回成功する確率。$\\binom{n}{k}$ は成功位置の選び方。",
+        "distractors": [
+          "P(X=k) = \\dfrac{\\lambda^k e^{-\\lambda}}{k!}",
+          "P(X=k) = (1-p)^{k-1}p",
+          "P(X=k) = p^k(1-p)^{1-k}",
+          "P(X=k) = \\dbinom{n}{k}p^{n-k}(1-p)^k",
+          "P(X=k) = \\dbinom{n}{k}p^k(1-p)^k"
+        ]
+      },
+      "pgf": {
+        "correct": "G_X(s) = \\{(1-p)+ps\\}^n",
+        "explanation": "$X=\\sum_{i=1}^n W_i$（独立なベルヌーイ和）より $G_X(s)=\\{G_W(s)\\}^n=\\{(1-p)+ps\\}^n$",
+        "distractors": [
+          "G_X(s) = e^{\\lambda(s-1)}",
+          "G_X(s) = (1-p)+ps",
+          "G_X(s) = \\dfrac{ps}{1-(1-p)s}",
+          "G_X(s) = \\{ps+(1-p)\\}^{n+1}",
+          "G_X(s) = \\{p+(1-p)s\\}^n"
+        ]
+      },
+      "expected_value": {
+        "correct": "E[X] = np",
+        "explanation": "$E[X]=G_X'(1)=np\\{(1-p)+p\\}^{n-1}=np$",
+        "distractors": [
+          "E[X] = \\lambda",
+          "E[X] = p",
+          "E[X] = \\dfrac{1}{p}",
+          "E[X] = n(1-p)",
+          "E[X] = \\dfrac{n+1}{2}"
+        ]
+      },
+      "variance": {
+        "correct": "V[X] = np(1-p)",
+        "explanation": "$V[X]=n\\cdot V[W]=n\\cdot p(1-p)$（ベルヌーイ分散の $n$ 倍）",
+        "distractors": [
+          "V[X] = np^2(1-p)",
+          "V[X] = \\lambda",
+          "V[X] = p(1-p)",
+          "V[X] = \\dfrac{np(1-p)}{n-1}",
+          "V[X] = n^2p(1-p)"
+        ]
+      }
+    },
+    {
+      "id": "geometric",
+      "name": "幾何分布",
+      "notation": "Geo(p)",
+      "applicable_question_types": [
+        "distribution_name",
+        "pmf",
+        "pgf",
+        "expected_value",
+        "variance"
+      ],
+      "keywords": "成功確率 $p$ の独立試行を繰り返し、**初めて成功するまでの試行回数**（$k\\ge 1$）",
+      "scenarios": [
+        "クレーンゲームで1回の試行で景品が取れる確率が $p$。初めて景品が取れるまでの試行回数を $X$ とするとき",
+        "購入確率 $p$ の顧客に初めて購入してもらうまでに必要な訪問者数を $X$ とするとき",
+        "不良品が出る確率 $p$ の生産ラインで、初めて不良品が発生するまでの検査個数を $X$ とするとき",
+        "1回の通話で接続できる確率が $p$ のコールセンターで、初めて接続成功するまでの試行回数を $X$ とするとき",
+        "命中率 $p$ の射撃で、初めて的に当たるまでに要した弾数を $X$ とするとき",
+        "コイン投げで表が出る確率が $p$。初めて表が出るまでに必要な投げた回数を $X$ とするとき",
+        "採用試験に1回で合格する確率が $p$。初めて合格するまでの受験回数を $X$ とするとき",
+        "1回の曝露でウイルスに感染する確率が $p$。初めて感染するまでの曝露回数を $X$ とするとき",
+        "1回の広告表示でクリックされる確率が $p$。初めてクリックされるまでの表示回数を $X$ とするとき",
+        "種1粒が発芽する確率が $p$。初めて発芽するまでに必要な種まき回数を $X$ とするとき"
+      ],
+      "pmf": {
+        "correct": "P(X=k) = (1-p)^{k-1}p \\quad (k=1,2,\\ldots)",
+        "explanation": "$k-1$ 回失敗し、$k$ 回目で初めて成功する確率。",
+        "distractors": [
+          "P(X=k) = \\dfrac{\\lambda^k e^{-\\lambda}}{k!}",
+          "P(X=k) = \\dbinom{n}{k}p^k(1-p)^{n-k}",
+          "P(X=k) = p^k(1-p)^{1-k}",
+          "P(X=k) = (1-p)^k p",
+          "P(X=k) = p(1-p)^{k+1}"
+        ]
+      },
+      "pgf": {
+        "correct": "G_X(s) = \\dfrac{ps}{1-(1-p)s}",
+        "explanation": "$G_X(s)=ps\\sum_{k=0}^\\infty\\{(1-p)s\\}^k=\\frac{ps}{1-(1-p)s}$（等比無限級数）",
+        "distractors": [
+          "G_X(s) = e^{\\lambda(s-1)}",
+          "G_X(s) = \\{(1-p)+ps\\}^n",
+          "G_X(s) = (1-p)+ps",
+          "G_X(s) = \\dfrac{p}{1-(1-p)s}",
+          "G_X(s) = \\dfrac{ps}{1+ps}"
+        ]
+      },
+      "expected_value": {
+        "correct": "E[X] = \\dfrac{1}{p}",
+        "explanation": "$E[X]=G_X'(1)=\\frac{p}{p^2}=\\frac{1}{p}$",
+        "distractors": [
+          "E[X] = p",
+          "E[X] = np",
+          "E[X] = \\lambda",
+          "E[X] = \\dfrac{1-p}{p}",
+          "E[X] = \\dfrac{r}{p}"
+        ]
+      },
+      "variance": {
+        "correct": "V[X] = \\dfrac{1-p}{p^2}",
+        "explanation": "$V[X]=G_X''(1)+G_X'(1)-\\{G_X'(1)\\}^2=\\frac{1-p}{p^2}$",
+        "distractors": [
+          "V[X] = \\dfrac{p}{(1-p)^2}",
+          "V[X] = np(1-p)",
+          "V[X] = \\lambda",
+          "V[X] = \\dfrac{1}{p^2}",
+          "V[X] = \\dfrac{r(1-p)}{p^2}"
+        ]
+      }
+    },
+    {
+      "id": "negative_binomial",
+      "name": "負の二項分布",
+      "notation": "NB(r,p)",
+      "applicable_question_types": [
+        "distribution_name",
+        "pmf",
+        "pgf",
+        "expected_value",
+        "variance"
+      ],
+      "keywords": "成功確率 $p$ の独立試行を繰り返し、**$r$ 回目の成功が起きるまでの総試行回数**（$k\\ge r$）",
+      "scenarios": [
+        "購入確率 $p$ の顧客が訪問する。$r$ 回目の購入が発生するまでの通算訪問者数を $X$ とするとき",
+        "不良品率 $p$ の製造ラインで、$r$ 個目の不良品が出るまでの検査個数を $X$ とするとき",
+        "命中率 $p$ の射撃で、$r$ 回目の命中が起きるまでに要した弾数を $X$ とするとき",
+        "採用試験に合格する確率が $p$ で、累計 $r$ 人の合格者が出るまでに必要な受験者数を $X$ とするとき",
+        "接続成功確率 $p$ のコールセンターで、$r$ 回目の接続成功までの試行回数を $X$ とするとき",
+        "広告クリック率 $p$ のとき、$r$ 回目のクリックが発生するまでの広告表示回数を $X$ とするとき",
+        "ゲームで1回の試行で成功する確率が $p$。$r$ 回目の成功までに要した試行回数を $X$ とするとき",
+        "治癒率 $p$ の薬で、$r$ 人目の患者が治癒するまでに投与した総数を $X$ とするとき",
+        "返信確率 $p$ のメールで、$r$ 通目の返信が来るまでに送ったメール総数を $X$ とするとき",
+        "発芽率 $p$ の種で、$r$ 粒目が発芽するまでにまいた種の総数を $X$ とするとき"
+      ],
+      "pmf": {
+        "correct": "P(X=k) = \\dbinom{k-1}{r-1}p^r(1-p)^{k-r} \\quad (k=r,r+1,\\ldots)",
+        "explanation": "$k$ 回目で $r$ 回目の成功 → 最初の $k-1$ 回に $r-1$ 回の成功が含まれ、$k$ 回目が成功。",
+        "distractors": [
+          "P(X=k) = (1-p)^{k-1}p",
+          "P(X=k) = \\dbinom{n}{k}p^k(1-p)^{n-k}",
+          "P(X=k) = \\dfrac{\\lambda^k e^{-\\lambda}}{k!}",
+          "P(X=k) = \\dbinom{k}{r}p^r(1-p)^{k-r}",
+          "P(X=k) = \\dbinom{k-1}{r-1}p^{r-1}(1-p)^{k-r+1}"
+        ]
+      },
+      "pgf": {
+        "correct": "G_X(s) = \\left(\\dfrac{ps}{1-(1-p)s}\\right)^r",
+        "explanation": "$X=\\sum_{i=1}^r U_i$（独立な幾何分布の和）より $G_X(s)=\\{G_U(s)\\}^r$",
+        "distractors": [
+          "G_X(s) = \\dfrac{ps}{1-(1-p)s}",
+          "G_X(s) = \\{(1-p)+ps\\}^n",
+          "G_X(s) = e^{\\lambda(s-1)}",
+          "G_X(s) = \\left(\\dfrac{p}{1-(1-p)s}\\right)^r",
+          "G_X(s) = \\left(\\dfrac{(1-p)s}{1-ps}\\right)^r"
+        ]
+      },
+      "expected_value": {
+        "correct": "E[X] = \\dfrac{r}{p}",
+        "explanation": "$X=\\sum_{i=1}^r U_i$ で各 $U_i\\sim Geo(p)$ より $E[X]=r\\cdot E[U]=\\frac{r}{p}$",
+        "distractors": [
+          "E[X] = \\dfrac{1}{p}",
+          "E[X] = np",
+          "E[X] = \\lambda",
+          "E[X] = \\dfrac{r(1-p)}{p}",
+          "E[X] = rp"
+        ]
+      },
+      "variance": {
+        "correct": "V[X] = \\dfrac{r(1-p)}{p^2}",
+        "explanation": "$V[X]=r\\cdot V[U]=r\\cdot\\frac{1-p}{p^2}$",
+        "distractors": [
+          "V[X] = \\dfrac{1-p}{p^2}",
+          "V[X] = np(1-p)",
+          "V[X] = \\lambda",
+          "V[X] = \\dfrac{r(1-p)^2}{p^2}",
+          "V[X] = \\dfrac{r}{p^2}"
+        ]
+      }
+    },
+    {
+      "id": "multinomial",
+      "name": "多項分布",
+      "notation": "Mn(m;p_1,\\ldots,p_c)",
+      "applicable_question_types": [
+        "distribution_name",
+        "pmf",
+        "expected_value",
+        "variance"
+      ],
+      "keywords": "$c$ 種類の結果（$\\sum p_i=1$）の排他的試行を $m$ 回行い、各カテゴリの発生数を記録する場面",
+      "scenarios": [
+        "$m$ 人の購入客が「商品A（確率 $p_1$）」「商品B（確率 $p_2$）」「その他（確率 $p_3$）」のいずれかを購入する。各カテゴリの購入数を $(Y_1,Y_2,Y_3)$ とするとき",
+        "$m$ 票を投じる選挙で候補A（$p_1$）・B（$p_2$）・C（$p_3$）への投票数を $(Y_1,Y_2,Y_3)$ とするとき",
+        "$m$ 名の患者が血液型A（$p_1$）・B（$p_2$）・O（$p_3$）・AB（$p_4$）のいずれか。各型の人数を $(Y_1,Y_2,Y_3,Y_4)$ とするとき",
+        "$m$ 個の部品が不良モードA（$p_1$）・B（$p_2$）・正常（$p_3$）に分類される。各カテゴリの個数を $(Y_1,Y_2,Y_3)$ とするとき",
+        "$m$ 名のアンケート回答者が「賛成（$p_1$）」「反対（$p_2$）」「無回答（$p_3$）」を選ぶ。各選択肢の人数を $(Y_1,Y_2,Y_3)$ とするとき",
+        "$m$ 粒のサイコロを投げ、1〜2の目（$p_1$）・3〜4（$p_2$）・5〜6（$p_3$）に分類する。各カテゴリの個数を $(Y_1,Y_2,Y_3)$ とするとき",
+        "$m$ 通のメールが「スパム（$p_1$）」「重要（$p_2$）」「通常（$p_3$）」に自動分類される。各カテゴリの通数を $(Y_1,Y_2,Y_3)$ とするとき",
+        "$m$ 名の新入社員が「営業（$p_1$）」「技術（$p_2$）」「管理（$p_3$）」に配属される。各部門の人数を $(Y_1,Y_2,Y_3)$ とするとき",
+        "$m$ 個のパッケージが「優良（$p_1$）」「普通（$p_2$）」「不良（$p_3$）」と判定される。各判定の個数を $(Y_1,Y_2,Y_3)$ とするとき",
+        "$m$ 匹の生物が「生存（$p_1$）」「休眠（$p_2$）」「死滅（$p_3$）」のいずれかの状態になる。各状態の個体数を $(Y_1,Y_2,Y_3)$ とするとき"
+      ],
+      "pmf": {
+        "correct": "P(Y_1=k_1,\\ldots,Y_c=k_c) = \\dfrac{m!}{k_1!\\cdots k_c!}p_1^{k_1}\\cdots p_c^{k_c}",
+        "explanation": "多項係数 $\\frac{m!}{k_1!\\cdots k_c!}$ は各カテゴリへの割り当て方の数。$\\sum k_i=m$、$\\sum p_i=1$。",
+        "distractors": [
+          "P(Y_1=k_1,Y_2=k_2) = \\dbinom{m}{k_1}p_1^{k_1}(1-p_1)^{m-k_1}",
+          "P(X=k) = \\dfrac{\\lambda^k e^{-\\lambda}}{k!}",
+          "P(X=k) = \\dbinom{n}{k}p^k(1-p)^{n-k}",
+          "P(Y_1=k_1,\\ldots) = \\dfrac{(m-1)!}{k_1!\\cdots k_c!}p_1^{k_1}\\cdots p_c^{k_c}",
+          "P(Y_1=k_1,\\ldots) = m!\\cdot p_1^{k_1}\\cdots p_c^{k_c}"
+        ]
+      },
+      "expected_value": {
+        "correct": "E[Y_i] = mp_i",
+        "explanation": "$Y_i\\sim B(m,p_i)$ の周辺分布はそれぞれ二項分布であるため $E[Y_i]=mp_i$。",
+        "distractors": [
+          "E[Y_i] = p_i",
+          "E[Y_i] = mp_i(1-p_i)",
+          "E[Y_i] = \\lambda",
+          "E[Y_i] = \\dfrac{1}{p_i}",
+          "E[Y_i] = m(1-p_i)"
+        ]
+      },
+      "variance": {
+        "correct": "V[Y_i] = mp_i(1-p_i)",
+        "explanation": "各周辺分布 $Y_i\\sim B(m,p_i)$ の分散は $mp_i(1-p_i)$。",
+        "distractors": [
+          "V[Y_i] = mp_i",
+          "V[Y_i] = p_i(1-p_i)",
+          "V[Y_i] = \\lambda",
+          "V[Y_i] = \\dfrac{1-p_i}{p_i^2}",
+          "V[Y_i] = m^2p_i(1-p_i)"
+        ]
+      }
+    }
+  ]
+}
