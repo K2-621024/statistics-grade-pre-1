@@ -59,8 +59,16 @@ export type QuestionSet = {
 };
 
 // ─── ユーティリティ ───────────────────────────────────────
+function stripDomain(s: string): string {
+  return s
+    .replace(/\s*\\quad\s*\([^)]*\)\s*$/, "")
+    .replace(/\s+\([^)]*k[^)]*\)\s*$/, "")
+    .trim();
+}
+
 function wrapMath(s: string): string {
-  return s.startsWith("$") ? s : `$${s}$`;
+  const stripped = stripDomain(s);
+  return stripped.startsWith("$") ? stripped : `$${stripped}$`;
 }
 
 function randomElement<T>(arr: T[]): T {

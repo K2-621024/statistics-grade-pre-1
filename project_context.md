@@ -41,3 +41,5 @@
 | T008 | 中 | stat-prep-app | テスト | npm run build && npm run start で PWA 本番モード（Service Worker・オフライン）の動作を確認する | 小 | 高 | Not Started |
 | T009 | 中 | stat-prep-app | データ整備 | ch06.json（連続分布・標本分布）の question_format を作成してアプリに追加する | 大 | 高 | Not Started |
 | T010 | 低 | 演習問題 | コンテンツ | ch0_Template.md のフォーマットに従って ch7〜ch32 の演習問題ファイルを順次作成する | 大 | 高 | In Progress |
+| T011 | 高 | stat-prep-app | UX改善 | 選択肢を選択した後に変更できない | 小 | 高 | Completed |
+| T012 | 高 | stat-prep-app | バグ修正 | 確率関数の不正解選択肢に "k=1, 2, ..." が表示されていない、それで判断できてしまう | 小 | 高 | Completed |

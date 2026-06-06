@@ -29,7 +29,7 @@ export default function QuestionCard({
   const [state, setState] = useState<AnswerState>({ phase: "idle" });
 
   function handleSelect(opt: Option) {
-    if (state.phase !== "idle") return;
+    if (state.phase === "answered") return;
     setState({ phase: "pending", selectedId: opt.id });
   }
 
