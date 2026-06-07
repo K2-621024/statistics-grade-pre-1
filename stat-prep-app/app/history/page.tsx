@@ -32,8 +32,13 @@ export default function HistoryPage() {
     setHistory(getHistory());
   }, []);
 
+  const cutoff = new Date();
+  cutoff.setDate(cutoff.getDate() - 6);
+  const cutoffStr = cutoff.toISOString().slice(0, 10);
+  const recentHistory = history.filter((r) => r.date >= cutoffStr);
+
   const dateChapterMap: Record<string, Record<string, number>> = {};
-  for (const record of history) {
+  for (const record of recentHistory) {
     if (!dateChapterMap[record.date]) dateChapterMap[record.date] = {};
     const chKey = `ch${record.chapterId}`;
     dateChapterMap[record.date][chKey] =
@@ -41,9 +46,9 @@ export default function HistoryPage() {
   }
 
   const sortedDates = Object.keys(dateChapterMap).sort();
-  const allChapters = [...new Set(history.map((r) => r.chapterId))].sort(
-    (a, b) => a - b
-  );
+  const allChapters = [
+    ...new Set(recentHistory.map((r) => r.chapterId)),
+  ].sort((a, b) => a - b);
 
   const chartData = sortedDates.map((date) => ({
     date: date.slice(5),
@@ -53,15 +58,15 @@ export default function HistoryPage() {
   return (
     <main className="min-h-screen flex flex-col pb-20">
       <div className="max-w-lg mx-auto w-full px-4 pt-6">
-        <div className="mb-6">
-          <h1 className="text-xl font-bold text-gray-900">学習履歴</h1>
-          <p className="text-sm text-gray-600">日別の進捗グラフ</p>
+        <div className="-mx-4 -mt-6 px-4 pt-6 pb-4 bg-blue-600 mb-6">
+          <h1 className="text-xl font-bold text-white">学習履歴</h1>
+          <p className="text-sm text-blue-100">直近7日間の進捗グラフ</p>
         </div>
 
-        {history.length === 0 ? (
+        {recentHistory.length === 0 ? (
           <div className="text-center py-16 text-gray-400">
             <p className="text-4xl mb-3">📋</p>
-            <p>まだ学習履歴がありません</p>
+            <p>直近7日間の学習履歴がありません</p>
             <p className="text-xs mt-1">トップから学習を始めましょう！</p>
           </div>
         ) : (

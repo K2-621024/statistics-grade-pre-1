@@ -27,10 +27,16 @@ type AppMode =
   | { kind: "session"; set: QuestionSet; qIndex: number; answers: boolean[] }
   | { kind: "result"; set: QuestionSet; answers: boolean[] };
 
-const ALL_FORMAT_PATHS = ["/data/question_formats/ch05.json"];
+const ALL_FORMAT_PATHS = [
+  "/data/question_formats/ch05.json",
+  "/data/question_formats/ch06.json",
+];
 const ALL_DISTRIBUTION_KEYS = [
   "5_discrete_uniform", "5_hypergeometric", "5_poisson", "5_bernoulli",
   "5_binomial", "5_geometric", "5_negative_binomial", "5_multinomial",
+  "6_continuous_uniform", "6_normal", "6_lognormal", "6_exponential",
+  "6_gamma", "6_beta", "6_cauchy", "6_multivariate_normal",
+  "6_mixed_normal", "6_chi_squared", "6_t", "6_f",
 ];
 
 export default function HomePage() {
@@ -110,7 +116,7 @@ export default function HomePage() {
     updateWeaknessData(set.chapterId, score, answers.length);
     updateMasteryData(key, score, answers.length);
 
-    if (mission && mission.targetKeys.includes(key)) {
+    if (mission && mission.targetKeys.includes(key) && score === answers.length) {
       markMissionSetComplete(key);
       setMission(getDailyMission());
     }
@@ -171,9 +177,9 @@ export default function HomePage() {
   return (
     <main className="min-h-screen flex flex-col pb-20">
       <div className="max-w-lg mx-auto w-full px-4 pt-6">
-        <div className="mb-6">
-          <h1 className="text-xl font-bold text-gray-900">統計検定準1級</h1>
-          <p className="text-sm text-gray-600">対策学習アプリ</p>
+        <div className="-mx-4 -mt-6 px-4 pt-6 pb-4 bg-blue-600 mb-6">
+          <h1 className="text-xl font-bold text-white">統計検定準1級</h1>
+          <p className="text-sm text-blue-100">対策学習アプリ</p>
         </div>
 
         <DailyMission mission={mission} onStart={startDailyMission} />
