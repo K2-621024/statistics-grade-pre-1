@@ -1,0 +1,2 @@
+cd stat-prep-app
+npm run dev
