@@ -22,8 +22,12 @@ export type DistributionDef = {
   scenarios: string[];
   pmf?: FormulaSet;
   pgf?: FormulaSet;
+  pdf?: FormulaSet;
+  mgf?: FormulaSet;
   expected_value?: FormulaSet;
   variance?: FormulaSet;
+  distribution_summary?: FormulaSet;
+  distribution_use_case?: FormulaSet;
 };
 
 export type ChapterFormat = {
@@ -104,7 +108,7 @@ export function generateQuestionSet(
     ? (formatData.distributions.find((d) => d.id === targetDistributionId) ??
         randomElement(formatData.distributions))
     : randomElement(formatData.distributions);
-  const scenario = randomElement(dist.scenarios);
+  const scenario = dist.scenarios.length > 0 ? randomElement(dist.scenarios) : "";
   const category =
     CHAPTER_TO_CATEGORY[formatData.chapter] ?? "確率と確率分布";
 
@@ -139,13 +143,15 @@ export function generateQuestionSet(
         | undefined;
       if (!formulaSet) continue;
 
+      const wrap = qtId === "distribution_use_case" ? (s: string) => s : wrapMath;
+
       const wrongOptions = shuffleArray(formulaSet.distractors)
         .slice(0, 4)
-        .map((d) => ({ text: wrapMath(d), isCorrect: false }));
+        .map((d) => ({ text: wrap(d), isCorrect: false }));
 
       options = assignOptionLabels(
         shuffleArray([
-          { text: wrapMath(formulaSet.correct), isCorrect: true },
+          { text: wrap(formulaSet.correct), isCorrect: true },
           ...wrongOptions,
         ])
       );

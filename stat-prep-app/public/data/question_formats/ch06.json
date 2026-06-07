@@ -1,0 +1,570 @@
+{
+  "chapter": 6,
+  "title": "連続型分布と標本分布",
+  "category": "確率と確率分布",
+  "phase": 1,
+  "question_types": [
+    {
+      "id": "distribution_name",
+      "label": "分布の名称",
+      "question_template": "次のシナリオに最も適した確率分布はどれか。"
+    },
+    {
+      "id": "pdf",
+      "label": "確率密度関数",
+      "question_template": "上のシナリオで {{distribution_name}} に従う確率変数 $X$ の確率密度関数 $f(x)$ として正しいものを選べ。"
+    },
+    {
+      "id": "mgf",
+      "label": "積率母関数",
+      "question_template": "上のシナリオで {{distribution_name}} に従う確率変数 $X$ の積率母関数 $M_X(t) = E[e^{tX}]$ として正しいものを選べ。"
+    },
+    {
+      "id": "expected_value",
+      "label": "期待値",
+      "question_template": "上のシナリオで {{distribution_name}} に従う確率変数 $X$ の期待値 $E[X]$ として正しいものを選べ。"
+    },
+    {
+      "id": "variance",
+      "label": "分散",
+      "question_template": "上のシナリオで {{distribution_name}} に従う確率変数 $X$ の分散 $V[X]$ として正しいものを選べ。"
+    },
+    {
+      "id": "distribution_summary",
+      "label": "分布の定義",
+      "question_template": "次の分布の定義として正しいものを選べ。"
+    },
+    {
+      "id": "distribution_use_case",
+      "label": "使用場面",
+      "question_template": "次のシナリオのうち、{{distribution_name}} が最も適した手法として用いられるのはどれか。"
+    }
+  ],
+  "distributions": [
+    {
+      "id": "continuous_uniform",
+      "name": "連続一様分布",
+      "notation": "U(a,b)",
+      "applicable_question_types": ["distribution_name", "pdf", "mgf", "expected_value", "variance"],
+      "keywords": "区間 $[a,b]$ 内のすべての値が等しい確率密度を持つ場面（待ち時間・乱数生成など）",
+      "scenarios": [
+        "電車が $a$ 分後から $b$ 分後の間に一様ランダムに到着する。到着までの待ち時間を $X$ とするとき",
+        "コンピュータが区間 $[a,b]$ の実数を一様乱数で発生させる。発生した値を $X$ とするとき",
+        "機械が $a$ cm から $b$ cm の間で一様に誤差を生じる。誤差量を $X$ とするとき",
+        "信号が $a$ 秒後から $b$ 秒後の間に一様ランダムに届く。信号到達時間（秒）を $X$ とするとき",
+        "$a$ km から $b$ km の道路上に事故発生地点が一様に分布する。発生地点（km）を $X$ とするとき",
+        "乱数発生装置が $a$ 以上 $b$ 未満の実数を等確率で出力する。出力値を $X$ とするとき",
+        "工場の生産品の重量が $[a,b]$ g の範囲で一様に分布する。任意の 1 個の重量を $X$ とするとき",
+        "針が $[a,b]$ の範囲を一様に指す計器で測定する。測定値を $X$ とするとき",
+        "電話が $a$ 時から $b$ 時の間に等確率でかかってくる。着信時刻（時）を $X$ とするとき",
+        "バッテリーが満充電から $a$ 時間後から $b$ 時間後の間に一様に切れる。使用可能時間を $X$ とするとき"
+      ],
+      "pdf": {
+        "correct": "f(x) = \\dfrac{1}{b-a} \\quad (a \\le x \\le b)",
+        "explanation": "区間 $[a,b]$ で一定の密度 $\\frac{1}{b-a}$ を持ち、$\\int_a^b f(x)dx=1$ を満たす。",
+        "distractors": [
+          "f(x) = \\dfrac{1}{b+a}",
+          "f(x) = \\dfrac{1}{2(b-a)}",
+          "f(x) = \\dfrac{1}{\\sqrt{2\\pi}\\,\\sigma}\\exp\\!\\left(-\\dfrac{(x-\\mu)^2}{2\\sigma^2}\\right)",
+          "f(x) = \\lambda e^{-\\lambda x}"
+        ]
+      },
+      "mgf": {
+        "correct": "M_X(t) = \\dfrac{e^{tb}-e^{ta}}{t(b-a)}",
+        "explanation": "$M_X(t)=\\int_a^b e^{tx}\\frac{1}{b-a}dx=\\frac{1}{t(b-a)}\\bigl[e^{tx}\\bigr]_a^b=\\frac{e^{tb}-e^{ta}}{t(b-a)}$",
+        "distractors": [
+          "M_X(t) = \\dfrac{e^{ta}-e^{tb}}{t(b-a)}",
+          "M_X(t) = \\dfrac{e^{tb}+e^{ta}}{t(b-a)}",
+          "M_X(t) = e^{\\mu t+\\sigma^2 t^2/2}",
+          "M_X(t) = \\dfrac{\\lambda}{\\lambda-t}"
+        ]
+      },
+      "expected_value": {
+        "correct": "E[X] = \\dfrac{a+b}{2}",
+        "explanation": "$E[X]=\\int_a^b x\\cdot\\frac{1}{b-a}dx=\\frac{a+b}{2}$（区間の中点）",
+        "distractors": [
+          "E[X] = \\dfrac{b-a}{2}",
+          "E[X] = \\dfrac{a+b}{4}",
+          "E[X] = \\mu",
+          "E[X] = \\dfrac{1}{\\lambda}"
+        ]
+      },
+      "variance": {
+        "correct": "V[X] = \\dfrac{(b-a)^2}{12}",
+        "explanation": "$V[X]=E[X^2]-(E[X])^2=\\frac{a^2+ab+b^2}{3}-\\frac{(a+b)^2}{4}=\\frac{(b-a)^2}{12}$",
+        "distractors": [
+          "V[X] = \\dfrac{(b-a)^2}{4}",
+          "V[X] = \\dfrac{(b+a)^2}{12}",
+          "V[X] = \\sigma^2",
+          "V[X] = \\dfrac{1}{\\lambda^2}"
+        ]
+      }
+    },
+    {
+      "id": "normal",
+      "name": "正規分布",
+      "notation": "N(\\mu,\\sigma^2)",
+      "applicable_question_types": ["distribution_name", "pdf", "mgf", "expected_value", "variance"],
+      "keywords": "平均 $\\mu$、分散 $\\sigma^2$ の対称な釣鐘型分布（身長・測定誤差・試験成績など）",
+      "scenarios": [
+        "ある成人男性集団の身長が平均 $\\mu$ cm、標準偏差 $\\sigma$ cm の正規分布に従う。無作為に 1 人選んだときの身長を $X$ とするとき",
+        "ある工場の部品の長さが平均 $\\mu$ mm、標準偏差 $\\sigma$ mm の正規分布に従う。任意の 1 個の長さを $X$ とするとき",
+        "ある試験の点数が平均 $\\mu$ 点、標準偏差 $\\sigma$ 点の正規分布に従う。受験者 1 人の点数を $X$ とするとき",
+        "測定器による誤差が平均 $0$、標準偏差 $\\sigma$ の正規分布に従う。1 回の測定誤差を $X$ とするとき",
+        "ある農場のリンゴの重量が平均 $\\mu$ g、標準偏差 $\\sigma$ g の正規分布に従う。任意の 1 個の重量を $X$ とするとき",
+        "ある地域の年間降水量が平均 $\\mu$ mm、標準偏差 $\\sigma$ mm の正規分布に従う。任意の 1 年の降水量を $X$ とするとき",
+        "ある作業者が部品を組み立てる時間が平均 $\\mu$ 秒、標準偏差 $\\sigma$ 秒の正規分布に従う。1 回の作業時間を $X$ とするとき",
+        "学生の反応時間が平均 $\\mu$ ms、標準偏差 $\\sigma$ ms の正規分布に従う。無作為に選んだ学生の反応時間を $X$ とするとき",
+        "ある品種の植物の花の直径が平均 $\\mu$ cm、標準偏差 $\\sigma$ cm の正規分布に従う。任意の 1 個の直径を $X$ とするとき",
+        "ある電球の輝度が平均 $\\mu$ lm、標準偏差 $\\sigma$ lm の正規分布に従う。任意の 1 個の輝度を $X$ とするとき"
+      ],
+      "pdf": {
+        "correct": "f(x) = \\dfrac{1}{\\sqrt{2\\pi}\\,\\sigma}\\exp\\!\\left(-\\dfrac{(x-\\mu)^2}{2\\sigma^2}\\right)",
+        "explanation": "完全平方の指数型。規格化定数 $\\frac{1}{\\sqrt{2\\pi}\\sigma}$ と分母の $2\\sigma^2$ が重要。",
+        "distractors": [
+          "f(x) = \\dfrac{1}{\\sqrt{2\\pi}\\,\\sigma}\\exp\\!\\left(-\\dfrac{(x-\\mu)^2}{\\sigma^2}\\right)",
+          "f(x) = \\dfrac{1}{\\sqrt{\\pi}\\,\\sigma}\\exp\\!\\left(-\\dfrac{(x-\\mu)^2}{2\\sigma^2}\\right)",
+          "f(x) = \\dfrac{1}{\\sqrt{2\\pi}\\,\\sigma^2}\\exp\\!\\left(-\\dfrac{(x-\\mu)^2}{2\\sigma^2}\\right)",
+          "f(x) = \\dfrac{1}{\\sqrt{2\\pi}}\\exp\\!\\left(-\\dfrac{x^2}{2}\\right)"
+        ]
+      },
+      "mgf": {
+        "correct": "M_X(t) = \\exp\\!\\left(\\mu t+\\dfrac{\\sigma^2 t^2}{2}\\right)",
+        "explanation": "指数部を完全平方に整理して積分すると $M_X(t)=e^{\\mu t+\\sigma^2 t^2/2}$ が得られる。",
+        "distractors": [
+          "M_X(t) = \\exp\\!\\left(\\mu t-\\dfrac{\\sigma^2 t^2}{2}\\right)",
+          "M_X(t) = \\exp\\!\\left(\\mu t+\\sigma^2 t^2\\right)",
+          "M_X(t) = \\exp\\!\\left(\\mu+\\dfrac{\\sigma^2}{2}\\right)",
+          "M_X(t) = \\dfrac{\\lambda}{\\lambda-t}"
+        ]
+      },
+      "expected_value": {
+        "correct": "E[X] = \\mu",
+        "explanation": "正規分布は $\\mu$ を中心に対称なので $E[X]=\\mu$。",
+        "distractors": [
+          "E[X] = \\sigma",
+          "E[X] = \\mu^2",
+          "E[X] = 0",
+          "E[X] = \\dfrac{\\mu}{\\sigma}"
+        ]
+      },
+      "variance": {
+        "correct": "V[X] = \\sigma^2",
+        "explanation": "正規分布のパラメータ $\\sigma^2$ が分散そのもの。$M_X''(0)-(M_X'(0))^2=\\sigma^2$ で確認できる。",
+        "distractors": [
+          "V[X] = \\sigma",
+          "V[X] = 2\\sigma^2",
+          "V[X] = \\mu^2+\\sigma^2",
+          "V[X] = \\dfrac{\\sigma^2}{2}"
+        ]
+      }
+    },
+    {
+      "id": "lognormal",
+      "name": "対数正規分布",
+      "notation": "LN(\\mu,\\sigma^2)",
+      "applicable_question_types": ["distribution_name", "pdf", "expected_value", "variance"],
+      "keywords": "$\\ln X \\sim N(\\mu,\\sigma^2)$ となる正値データ（株価・収入・粒子径など）",
+      "scenarios": [
+        "ある地域の年収が対数正規分布 $LN(\\mu,\\sigma^2)$ に従う（$\\ln X \\sim N(\\mu,\\sigma^2)$）。無作為に 1 人選んだときの年収を $X$ とするとき",
+        "株価の終値の変化率の絶対値が対数正規分布に従う。1 日後の株価変動量を $X$ とするとき",
+        "工業製品の粒子径が対数正規分布に従う。無作為に選んだ 1 個の粒子径を $X$ とするとき",
+        "保険の 1 件あたりの損害額が $LN(\\mu,\\sigma^2)$ に従う（$\\ln X \\sim N(\\mu,\\sigma^2)$）。1 件の損害額を $X$ とするとき",
+        "ウェブサービスの応答時間が対数正規分布に従う。1 リクエストの応答時間（ms）を $X$ とするとき",
+        "土壌中の汚染物質濃度が対数正規分布に従う。任意の地点の濃度を $X$ とするとき",
+        "ある商品の 1 日の販売量が $LN(\\mu,\\sigma^2)$ に従う（$\\ln X \\sim N(\\mu,\\sigma^2)$）。1 日の販売量を $X$ とするとき",
+        "細菌のコロニーサイズが対数正規分布に従う。任意の 1 コロニーの面積を $X$ とするとき",
+        "建物の耐用年数が対数正規分布に従う。任意の 1 棟の耐用年数を $X$ とするとき",
+        "インターネット上のコンテンツへのアクセス数が対数正規分布に従う。任意の 1 コンテンツのアクセス数を $X$ とするとき"
+      ],
+      "pdf": {
+        "correct": "f(x) = \\dfrac{1}{\\sqrt{2\\pi}\\,\\sigma\\,x}\\exp\\!\\left(-\\dfrac{(\\ln x-\\mu)^2}{2\\sigma^2}\\right) \\quad (x>0)",
+        "explanation": "変数変換 $y=\\ln x$ により正規分布の pdf から導出。分母に $x$ が加わる点に注意。",
+        "distractors": [
+          "f(x) = \\dfrac{1}{\\sqrt{2\\pi}\\,\\sigma}\\exp\\!\\left(-\\dfrac{(\\ln x-\\mu)^2}{2\\sigma^2}\\right)",
+          "f(x) = \\dfrac{1}{\\sqrt{2\\pi}\\,\\sigma\\,x}\\exp\\!\\left(-\\dfrac{(x-\\mu)^2}{2\\sigma^2}\\right)",
+          "f(x) = \\dfrac{1}{\\sqrt{2\\pi}\\,\\sigma\\,x^2}\\exp\\!\\left(-\\dfrac{(\\ln x-\\mu)^2}{2\\sigma^2}\\right)",
+          "f(x) = \\dfrac{1}{\\sqrt{2\\pi}\\,\\sigma}\\exp\\!\\left(-\\dfrac{(x-\\mu)^2}{2\\sigma^2}\\right)"
+        ]
+      },
+      "expected_value": {
+        "correct": "E[X] = e^{\\mu+\\sigma^2/2}",
+        "explanation": "$E[X]=E[e^Y]$（$Y\\sim N(\\mu,\\sigma^2)$）$=M_Y(1)=e^{\\mu+\\sigma^2/2}$",
+        "distractors": [
+          "E[X] = e^{\\mu}",
+          "E[X] = e^{\\mu-\\sigma^2/2}",
+          "E[X] = \\mu",
+          "E[X] = e^{2\\mu+\\sigma^2}"
+        ]
+      },
+      "variance": {
+        "correct": "V[X] = (e^{\\sigma^2}-1)\\,e^{2\\mu+\\sigma^2}",
+        "explanation": "$V[X]=E[X^2]-(E[X])^2=e^{2\\mu+2\\sigma^2}-(e^{\\mu+\\sigma^2/2})^2=(e^{\\sigma^2}-1)e^{2\\mu+\\sigma^2}$",
+        "distractors": [
+          "V[X] = (e^{\\sigma^2}+1)\\,e^{2\\mu+\\sigma^2}",
+          "V[X] = (e^{\\sigma^2}-1)\\,e^{\\mu+\\sigma^2}",
+          "V[X] = \\sigma^2",
+          "V[X] = (e^{2\\sigma^2}-1)\\,e^{2\\mu+\\sigma^2}"
+        ]
+      }
+    },
+    {
+      "id": "exponential",
+      "name": "指数分布",
+      "notation": "\\mathrm{Exp}(\\lambda)",
+      "applicable_question_types": ["distribution_name", "pdf", "mgf", "expected_value", "variance"],
+      "keywords": "事象が平均 $1/\\lambda$ 間隔で独立に発生するとき、次の事象までの**待ち時間**（ポアソン過程の到着間隔）",
+      "scenarios": [
+        "コールセンターに平均 $1/\\lambda$ 分間隔で問い合わせが届く。次の問い合わせまでの待ち時間を $X$ とするとき",
+        "電子部品の寿命が指数分布に従う（平均寿命 $1/\\lambda$ 時間）。任意の 1 個の寿命を $X$ とするとき",
+        "放射性物質が平均 $1/\\lambda$ 秒間隔で粒子を放出する。次の放出までの時間を $X$ とするとき",
+        "ある交差点で平均 $1/\\lambda$ 分間隔で自動車が通過する。次の通過までの時間を $X$ とするとき",
+        "サーバーに平均 $1/\\lambda$ 秒間隔でリクエストが届く。次のリクエストまでの待ち時間を $X$ とするとき",
+        "ある種の生物の寿命が平均 $1/\\lambda$ 年の指数分布に従う。任意の 1 個体の寿命を $X$ とするとき",
+        "ATM に平均 $1/\\lambda$ 分間隔で顧客が到着する。次の到着までの時間を $X$ とするとき",
+        "機械の故障間隔が平均 $1/\\lambda$ 時間の指数分布に従う。次の故障までの時間を $X$ とするとき",
+        "コールセンターで平均 $1/\\lambda$ 秒間隔で呼び出しが発生する。次の呼び出しまでの時間を $X$ とするとき",
+        "顧客がサービス完了後、平均 $1/\\lambda$ 時間後に再訪する。次の来店までの時間を $X$ とするとき"
+      ],
+      "pdf": {
+        "correct": "f(x) = \\lambda e^{-\\lambda x} \\quad (x \\ge 0)",
+        "explanation": "ポアソン過程の到着間隔分布。無記憶性（$P(X>s+t|X>s)=P(X>t)$）を持つ唯一の連続分布。",
+        "distractors": [
+          "f(x) = e^{-\\lambda x}",
+          "f(x) = \\lambda e^{\\lambda x}",
+          "f(x) = \\lambda^2 x\\,e^{-\\lambda x}",
+          "f(x) = \\dfrac{1}{\\beta^\\alpha\\,\\Gamma(\\alpha)}x^{\\alpha-1}e^{-x/\\beta}"
+        ]
+      },
+      "mgf": {
+        "correct": "M_X(t) = \\dfrac{\\lambda}{\\lambda-t} \\quad (t<\\lambda)",
+        "explanation": "$M_X(t)=\\int_0^\\infty e^{tx}\\lambda e^{-\\lambda x}dx=\\lambda\\int_0^\\infty e^{-(\\lambda-t)x}dx=\\frac{\\lambda}{\\lambda-t}$（$t<\\lambda$ で収束）",
+        "distractors": [
+          "M_X(t) = \\dfrac{\\lambda}{\\lambda+t}",
+          "M_X(t) = \\dfrac{t}{\\lambda-t}",
+          "M_X(t) = (1-\\beta t)^{-\\alpha}",
+          "M_X(t) = e^{\\mu t+\\sigma^2 t^2/2}"
+        ]
+      },
+      "expected_value": {
+        "correct": "E[X] = \\dfrac{1}{\\lambda}",
+        "explanation": "$E[X]=M_X'(0)=\\frac{\\lambda}{(\\lambda-t)^2}\\big|_{t=0}=\\frac{1}{\\lambda}$",
+        "distractors": [
+          "E[X] = \\lambda",
+          "E[X] = \\dfrac{1}{\\lambda^2}",
+          "E[X] = \\dfrac{2}{\\lambda}",
+          "E[X] = \\alpha\\beta"
+        ]
+      },
+      "variance": {
+        "correct": "V[X] = \\dfrac{1}{\\lambda^2}",
+        "explanation": "$V[X]=E[X^2]-(E[X])^2=\\frac{2}{\\lambda^2}-\\frac{1}{\\lambda^2}=\\frac{1}{\\lambda^2}$",
+        "distractors": [
+          "V[X] = \\dfrac{1}{\\lambda}",
+          "V[X] = \\lambda^2",
+          "V[X] = \\dfrac{2}{\\lambda^2}",
+          "V[X] = \\alpha\\beta^2"
+        ]
+      }
+    },
+    {
+      "id": "gamma",
+      "name": "ガンマ分布",
+      "notation": "\\mathrm{Ga}(\\alpha,\\beta)",
+      "applicable_question_types": ["distribution_name", "pdf", "mgf", "expected_value", "variance"],
+      "keywords": "待ち時間が指数分布 $\\mathrm{Exp}(1/\\beta)$ に従う事象が **$\\alpha$ 回**起きるまでの合計待ち時間（形状 $\\alpha$、スケール $\\beta$）",
+      "scenarios": [
+        "寿命が平均 $\\beta$ 時間の指数分布に従う電子部品 $\\alpha$ 個が直列に故障するまでの総時間を $X$ とするとき",
+        "平均 $\\beta$ 分間隔でバスが来る停留所で $\\alpha$ 本目のバスを待つ時間を $X$ とするとき",
+        "コールセンターで $\\alpha$ 件の問い合わせを処理するまでの合計時間を $X$ とするとき（1 件あたり平均 $\\beta$ 分）",
+        "ポアソン過程（平均到着間隔 $\\beta$）で $\\alpha$ 番目の到着までの待ち時間を $X$ とするとき",
+        "製造工程の各ステップの処理時間が平均 $\\beta$ 分の指数分布に従い、$\\alpha$ ステップ通過後の総所要時間を $X$ とするとき",
+        "降水量が形状 $\\alpha$、スケール $\\beta$ のガンマ分布に従う地域の 1 日の降水量を $X$ とするとき",
+        "金融リスクモデルで損失額が形状 $\\alpha$、スケール $\\beta$ のガンマ分布に従う。1 事象の損失額を $X$ とするとき",
+        "放射性物質が平均 $\\beta$ 秒間隔で粒子を放出する。$\\alpha$ 個目の放出までの待ち時間を $X$ とするとき",
+        "ある材料の強度が形状 $\\alpha$、スケール $\\beta$ のガンマ分布に従う。任意の 1 試料の強度を $X$ とするとき",
+        "機械の $\\alpha$ 回目の故障までの稼働時間を $X$ とするとき（故障間隔は平均 $\\beta$ 時間の指数分布）"
+      ],
+      "pdf": {
+        "correct": "f(x) = \\dfrac{1}{\\beta^\\alpha\\,\\Gamma(\\alpha)}\\,x^{\\alpha-1}e^{-x/\\beta} \\quad (x \\ge 0)",
+        "explanation": "$\\Gamma(\\alpha)=\\int_0^\\infty t^{\\alpha-1}e^{-t}dt$ がガンマ関数。$\\alpha$ が整数のとき $\\Gamma(\\alpha)=(\\alpha-1)!$。",
+        "distractors": [
+          "f(x) = \\dfrac{1}{\\beta^\\alpha\\,\\Gamma(\\alpha)}\\,x^{\\alpha}e^{-x/\\beta}",
+          "f(x) = \\dfrac{1}{\\Gamma(\\alpha)}\\,x^{\\alpha-1}e^{-x/\\beta}",
+          "f(x) = \\dfrac{1}{\\beta^\\alpha\\,\\alpha!}\\,x^{\\alpha-1}e^{-x/\\beta}",
+          "f(x) = \\lambda e^{-\\lambda x}"
+        ]
+      },
+      "mgf": {
+        "correct": "M_X(t) = (1-\\beta t)^{-\\alpha} \\quad (t<1/\\beta)",
+        "explanation": "$X=T_1+\\cdots+T_\\alpha$（独立な $\\mathrm{Exp}(1/\\beta)$ の和）より $M_X(t)=\\prod(1-\\beta t)^{-1}=(1-\\beta t)^{-\\alpha}$",
+        "distractors": [
+          "M_X(t) = (1+\\beta t)^{-\\alpha}",
+          "M_X(t) = (1-\\beta t)^{\\alpha}",
+          "M_X(t) = (1-\\beta t)^{-\\alpha+1}",
+          "M_X(t) = \\dfrac{\\lambda}{\\lambda-t}"
+        ]
+      },
+      "expected_value": {
+        "correct": "E[X] = \\alpha\\beta",
+        "explanation": "$X=T_1+\\cdots+T_\\alpha$、各 $E[T_i]=\\beta$ より $E[X]=\\alpha\\beta$。",
+        "distractors": [
+          "E[X] = \\dfrac{\\alpha}{\\beta}",
+          "E[X] = \\dfrac{1}{\\beta}",
+          "E[X] = \\alpha\\beta^2",
+          "E[X] = \\alpha+\\beta"
+        ]
+      },
+      "variance": {
+        "correct": "V[X] = \\alpha\\beta^2",
+        "explanation": "$V[X]=\\alpha\\cdot V[T_i]=\\alpha\\cdot\\beta^2$（各指数分布の分散 $\\beta^2$ の $\\alpha$ 倍）",
+        "distractors": [
+          "V[X] = \\alpha\\beta",
+          "V[X] = \\dfrac{1}{\\beta^2}",
+          "V[X] = \\alpha^2\\beta^2",
+          "V[X] = \\dfrac{\\beta^2}{\\alpha}"
+        ]
+      }
+    },
+    {
+      "id": "beta",
+      "name": "ベータ分布",
+      "notation": "\\mathrm{Be}(\\alpha,\\beta)",
+      "applicable_question_types": ["distribution_name", "pdf", "expected_value", "variance"],
+      "keywords": "$[0,1]$ 区間上で定義される分布。成功確率の事前分布・比率データのモデル",
+      "scenarios": [
+        "ベイズ推定で二項分布の成功確率の事前分布として $\\mathrm{Be}(\\alpha,\\beta)$ を用いる。その分布から生成された確率値を $X$ とするとき",
+        "工場の検査工程での不良品率が $\\mathrm{Be}(\\alpha,\\beta)$ に従う。任意の時間帯の不良品率を $X$ とするとき",
+        "薬の投与による治癒率が $\\mathrm{Be}(\\alpha,\\beta)$ に従う。試行ごとの治癒率を $X$ とするとき",
+        "Web ページのクリック率が $\\mathrm{Be}(\\alpha,\\beta)$ に従う。任意の日のクリック率を $X$ とするとき",
+        "金属合金中の特定成分の含有比率が $\\mathrm{Be}(\\alpha,\\beta)$ に従う。任意の試料の比率を $X$ とするとき",
+        "アンケート調査の「賛成」の割合が $\\mathrm{Be}(\\alpha,\\beta)$ に従う事前分布を持つ。事前分布からの割合を $X$ とするとき",
+        "プロジェクトの完了率が $\\mathrm{Be}(\\alpha,\\beta)$ に従う。任意の時点の完了率を $X$ とするとき",
+        "ランダム分割で区間 $[0,1]$ の分割点が $\\mathrm{Be}(\\alpha,\\beta)$ に従う。分割点の位置を $X$ とするとき",
+        "マーケティング施策のリーチ率が $\\mathrm{Be}(\\alpha,\\beta)$ に従う。特定キャンペーンのリーチ率を $X$ とするとき",
+        "ある生態系で特定種が占める個体数の割合が $\\mathrm{Be}(\\alpha,\\beta)$ に従う。任意の調査時の割合を $X$ とするとき"
+      ],
+      "pdf": {
+        "correct": "f(x) = \\dfrac{x^{\\alpha-1}(1-x)^{\\beta-1}}{B(\\alpha,\\beta)} \\quad (0<x<1)",
+        "explanation": "ベータ関数 $B(\\alpha,\\beta)=\\frac{\\Gamma(\\alpha)\\Gamma(\\beta)}{\\Gamma(\\alpha+\\beta)}$ が正規化定数。$\\alpha=\\beta=1$ で一様分布 $U(0,1)$。",
+        "distractors": [
+          "f(x) = \\dfrac{x^{\\alpha}(1-x)^{\\beta}}{B(\\alpha,\\beta)}",
+          "f(x) = \\dfrac{x^{\\alpha-1}(1-x)^{\\beta-1}}{\\Gamma(\\alpha)\\Gamma(\\beta)}",
+          "f(x) = \\dfrac{1}{\\beta^\\alpha\\,\\Gamma(\\alpha)}x^{\\alpha-1}e^{-x/\\beta}",
+          "f(x) = \\dfrac{x^{\\alpha-1}(1+x)^{\\beta-1}}{B(\\alpha,\\beta)}"
+        ]
+      },
+      "expected_value": {
+        "correct": "E[X] = \\dfrac{\\alpha}{\\alpha+\\beta}",
+        "explanation": "$E[X]=\\frac{B(\\alpha+1,\\beta)}{B(\\alpha,\\beta)}=\\frac{\\Gamma(\\alpha+1)\\Gamma(\\alpha+\\beta)}{\\Gamma(\\alpha)\\Gamma(\\alpha+\\beta+1)}=\\frac{\\alpha}{\\alpha+\\beta}$",
+        "distractors": [
+          "E[X] = \\dfrac{\\beta}{\\alpha+\\beta}",
+          "E[X] = \\dfrac{\\alpha}{\\beta}",
+          "E[X] = \\dfrac{\\alpha-1}{\\alpha+\\beta-2}",
+          "E[X] = \\dfrac{\\alpha}{\\alpha+\\beta+1}"
+        ]
+      },
+      "variance": {
+        "correct": "V[X] = \\dfrac{\\alpha\\beta}{(\\alpha+\\beta)^2(\\alpha+\\beta+1)}",
+        "explanation": "$V[X]=E[X^2]-(E[X])^2$ を計算すると $\\frac{\\alpha\\beta}{(\\alpha+\\beta)^2(\\alpha+\\beta+1)}$ が得られる。",
+        "distractors": [
+          "V[X] = \\dfrac{\\alpha\\beta}{(\\alpha+\\beta)^2}",
+          "V[X] = \\dfrac{\\alpha\\beta}{(\\alpha+\\beta)(\\alpha+\\beta+1)}",
+          "V[X] = \\dfrac{\\alpha\\beta}{(\\alpha+\\beta)^3}",
+          "V[X] = \\dfrac{\\alpha}{(\\alpha+\\beta)^2(\\alpha+\\beta+1)}"
+        ]
+      }
+    },
+    {
+      "id": "cauchy",
+      "name": "コーシー分布",
+      "notation": "\\mathrm{Cauchy}(0,1)",
+      "applicable_question_types": ["distribution_name", "pdf"],
+      "keywords": "期待値・分散が存在しない重裾分布。標準形は位置 $0$、スケール $1$",
+      "scenarios": [
+        "光源から一様な方向に発射した光線が直線 $y=1$ と交わる点の $x$ 座標を $X$ とするとき",
+        "独立に標準正規分布に従う 2 変数の比 $Z_1/Z_2$ を $X$ とするとき",
+        "自由度 1 の $t$ 分布（$t(1)$）に従う確率変数を $X$ とするとき",
+        "振り子が一様に回転するとき、水平面への射影の位置（中心からの変位）を $X$ とするとき",
+        "重裾分布を持つ金融モデルで、標準コーシー分布に従う変動量を $X$ とするとき",
+        "安定分布の特殊ケースとして標準コーシー分布に従う確率変数を $X$ とするとき",
+        "スペクトロスコピーでローレンツ関数型の線形を持つ波長ずれを $X$ とするとき",
+        "強い外れ値が頻繁に現れる株価の極端なモデルにおける変動量を $X$ とするとき",
+        "位置 $0$、スケール $1$ のコーシー分布に従う信号雑音を $X$ とするとき",
+        "メディアン推定において標準コーシー分布に従う誤差を $X$ とするとき"
+      ],
+      "pdf": {
+        "correct": "f(x) = \\dfrac{1}{\\pi(1+x^2)}",
+        "explanation": "ローレンツ関数とも呼ばれる。期待値・分散は積分が発散するため存在しない。",
+        "distractors": [
+          "f(x) = \\dfrac{1}{\\pi(1+x)}",
+          "f(x) = \\dfrac{2}{\\pi(1+x^2)}",
+          "f(x) = \\dfrac{1}{\\pi\\sqrt{1+x^2}}",
+          "f(x) = \\dfrac{1}{\\pi(1-x^2)}"
+        ]
+      }
+    },
+    {
+      "id": "multivariate_normal",
+      "name": "多変量正規分布",
+      "notation": "N_n(\\boldsymbol{\\mu},\\Sigma)",
+      "applicable_question_types": ["distribution_name", "pdf", "expected_value", "variance"],
+      "keywords": "$n$ 次元確率ベクトル $\\boldsymbol{X}$ が平均ベクトル $\\boldsymbol{\\mu}$、分散共分散行列 $\\Sigma$ の正規分布に従う場面",
+      "scenarios": [
+        "学生の数学・英語・理科の試験成績が平均ベクトル $\\boldsymbol{\\mu}$、分散共分散行列 $\\Sigma$ の 3 次元正規分布に従う。学生 1 人の成績ベクトルを $\\boldsymbol{X}$ とするとき",
+        "株式市場の複数銘柄の日次リターンが多変量正規分布 $N_n(\\boldsymbol{\\mu},\\Sigma)$ に従う。1 日の各銘柄のリターンベクトルを $\\boldsymbol{X}$ とするとき",
+        "気象観測で気温・湿度・気圧の組が多変量正規分布に従う。ある時点の観測ベクトルを $\\boldsymbol{X}$ とするとき",
+        "医学研究で複数の検査値（血圧・コレステロールなど）が多変量正規分布 $N_n(\\boldsymbol{\\mu},\\Sigma)$ に従う。患者 1 人の検査値ベクトルを $\\boldsymbol{X}$ とするとき",
+        "工場の複数の品質指標（寸法・重量・強度）が多変量正規分布に従う。1 製品の品質指標ベクトルを $\\boldsymbol{X}$ とするとき",
+        "経済指標の複数時点での値が多変量正規分布 $N_n(\\boldsymbol{\\mu},\\Sigma)$ に従う。観測ベクトルを $\\boldsymbol{X}$ とするとき",
+        "ロボットアームの先端座標 $(X_1,X_2,X_3)$ が 3 次元正規分布に従う。1 回の操作後の座標ベクトルを $\\boldsymbol{X}$ とするとき",
+        "マーケティングデータで複数指標（購買金額・頻度・滞在時間）が多変量正規分布に従う。顧客 1 人のデータベクトルを $\\boldsymbol{X}$ とするとき",
+        "地質調査で各採取地点の複数成分含有率が多変量正規分布 $N_n(\\boldsymbol{\\mu},\\Sigma)$ に従う。1 地点の成分ベクトルを $\\boldsymbol{X}$ とするとき",
+        "音声認識で音声特徴量ベクトルが多変量正規分布に従う。1 フレームの特徴量ベクトルを $\\boldsymbol{X}$ とするとき"
+      ],
+      "pdf": {
+        "correct": "f(\\boldsymbol{x}) = \\dfrac{1}{(2\\pi)^{n/2}|\\Sigma|^{1/2}}\\exp\\!\\left(-\\dfrac{1}{2}(\\boldsymbol{x}-\\boldsymbol{\\mu})^T\\Sigma^{-1}(\\boldsymbol{x}-\\boldsymbol{\\mu})\\right)",
+        "explanation": "指数部の二次形式 $(\\boldsymbol{x}-\\boldsymbol{\\mu})^T\\Sigma^{-1}(\\boldsymbol{x}-\\boldsymbol{\\mu})$ はマハラノビス距離の 2 乗。",
+        "distractors": [
+          "f(\\boldsymbol{x}) = \\dfrac{1}{(2\\pi)^{n/2}|\\Sigma|}\\exp\\!\\left(-\\dfrac{1}{2}(\\boldsymbol{x}-\\boldsymbol{\\mu})^T\\Sigma^{-1}(\\boldsymbol{x}-\\boldsymbol{\\mu})\\right)",
+          "f(\\boldsymbol{x}) = \\dfrac{1}{(2\\pi)^{n}|\\Sigma|^{1/2}}\\exp\\!\\left(-\\dfrac{1}{2}(\\boldsymbol{x}-\\boldsymbol{\\mu})^T\\Sigma^{-1}(\\boldsymbol{x}-\\boldsymbol{\\mu})\\right)",
+          "f(\\boldsymbol{x}) = \\dfrac{1}{(2\\pi)^{n/2}|\\Sigma|^{1/2}}\\exp\\!\\left(-(\\boldsymbol{x}-\\boldsymbol{\\mu})^T\\Sigma^{-1}(\\boldsymbol{x}-\\boldsymbol{\\mu})\\right)",
+          "f(\\boldsymbol{x}) = \\dfrac{1}{(2\\pi)^{n/2}|\\Sigma|^{1/2}}\\exp\\!\\left(-\\dfrac{1}{2}(\\boldsymbol{x}-\\boldsymbol{\\mu})^T\\Sigma(\\boldsymbol{x}-\\boldsymbol{\\mu})\\right)"
+        ]
+      },
+      "expected_value": {
+        "correct": "E[\\boldsymbol{X}] = \\boldsymbol{\\mu} \\quad (\\text{平均ベクトル})",
+        "explanation": "各成分 $E[X_i]=\\mu_i$ であり、ベクトルとして $E[\\boldsymbol{X}]=\\boldsymbol{\\mu}$。",
+        "distractors": [
+          "E[\\boldsymbol{X}] = \\Sigma\\boldsymbol{\\mu}",
+          "E[\\boldsymbol{X}] = \\boldsymbol{0}",
+          "E[\\boldsymbol{X}] = \\Sigma^{-1}\\boldsymbol{\\mu}",
+          "E[\\boldsymbol{X}] = \\boldsymbol{\\mu}^T\\boldsymbol{\\mu}"
+        ]
+      },
+      "variance": {
+        "correct": "\\mathrm{Var}(\\boldsymbol{X}) = \\Sigma \\quad (\\text{分散共分散行列})",
+        "explanation": "$\\mathrm{Cov}(X_i,X_j)=\\Sigma_{ij}$（対角成分が各変数の分散、非対角成分が共分散）。",
+        "distractors": [
+          "\\mathrm{Var}(\\boldsymbol{X}) = \\Sigma^{-1}",
+          "\\mathrm{Var}(\\boldsymbol{X}) = |\\Sigma|",
+          "\\mathrm{Var}(\\boldsymbol{X}) = \\boldsymbol{\\mu}\\boldsymbol{\\mu}^T",
+          "\\mathrm{Var}(\\boldsymbol{X}) = \\Sigma^2"
+        ]
+      }
+    },
+    {
+      "id": "mixed_normal",
+      "name": "混合正規分布",
+      "notation": "(1-p)N(\\mu_1,\\sigma_1^2)+p\\,N(\\mu_2,\\sigma_2^2)",
+      "applicable_question_types": ["distribution_name", "pdf"],
+      "keywords": "2 つの異なる正規分布の集団が比率 $(1-p):p$ で混在する全体の分布",
+      "scenarios": [
+        "文系と理系の学生が混在するクラスの試験点数が、2 つの正規分布の混合分布に従う。無作為に 1 人選んだときの点数を $X$ とするとき",
+        "健常者と疾患患者が混在するサンプルの血液マーカー値が混合正規分布に従う。1 人のマーカー値を $X$ とするとき",
+        "製品ロットに通常品と異常品が混在し、各グループで重量が正規分布に従う。任意の 1 個の重量を $X$ とするとき",
+        "男性と女性が混在する集団の身長が 2 成分混合正規分布に従う。無作為に選んだ 1 人の身長を $X$ とするとき",
+        "初心者と上級者が混在するゲームプレイヤーのスコアが混合正規分布に従う。任意の 1 プレイヤーのスコアを $X$ とするとき",
+        "2 つの製造ラインから混合された製品の寸法が混合正規分布に従う。任意の 1 個の寸法を $X$ とするとき",
+        "都市部と農村部の住民が混在するサンプルの通勤時間が混合正規分布に従う。1 人の通勤時間を $X$ とするとき",
+        "訓練群と対照群が混在するデータの反応時間が混合正規分布に従う。1 人の反応時間を $X$ とするとき",
+        "2 種類の機械で生産した部品が混在し、各機械ごとに寿命が正規分布に従う。1 個の寿命を $X$ とするとき",
+        "低リスク顧客と高リスク顧客が混在する保険会社の請求額が混合正規分布に従う。1 件の請求額を $X$ とするとき"
+      ],
+      "pdf": {
+        "correct": "f(x) = (1-p)\\,f_1(x)+p\\,f_2(x)",
+        "explanation": "$f_k(x)$ は $N(\\mu_k,\\sigma_k^2)$ の pdf。$\\int f(x)dx=(1-p)\\cdot1+p\\cdot1=1$ を満たす。",
+        "distractors": [
+          "f(x) = p\\,f_1(x)+(1-p)\\,f_2(x)",
+          "f(x) = f_1(x)\\cdot f_2(x)",
+          "f(x) = \\sqrt{f_1(x)\\cdot f_2(x)}",
+          "f(x) = (1-p)\\,f_1(x)\\cdot p\\,f_2(x)"
+        ]
+      }
+    },
+    {
+      "id": "chi_squared",
+      "name": "カイ二乗分布",
+      "notation": "\\chi^2(k)",
+      "applicable_question_types": ["distribution_summary", "distribution_use_case"],
+      "keywords": "独立な標準正規変数の二乗和。自由度 $k$ を持つ",
+      "scenarios": [],
+      "distribution_summary": {
+        "correct": "W = Z_1^2+Z_2^2+\\cdots+Z_k^2 \\quad (Z_i \\overset{\\mathrm{i.i.d.}}{\\sim} N(0,1))",
+        "explanation": "$W\\sim\\chi^2(k)$ は $\\mathrm{Ga}(k/2,2)$ の特殊ケース。$E[W]=k$、$V[W]=2k$。",
+        "distractors": [
+          "W = Z_1+Z_2+\\cdots+Z_k \\quad (Z_i \\overset{\\mathrm{i.i.d.}}{\\sim} N(0,1))",
+          "W = \\dfrac{Z_1^2+Z_2^2+\\cdots+Z_k^2}{k} \\quad (Z_i \\overset{\\mathrm{i.i.d.}}{\\sim} N(0,1))",
+          "W = \\left(\\displaystyle\\sum_{i=1}^k Z_i\\right)^2 \\quad (Z_i \\overset{\\mathrm{i.i.d.}}{\\sim} N(0,1))",
+          "T = \\dfrac{Z}{\\sqrt{V/k}} \\quad (Z\\sim N(0,1),\\; V\\sim\\chi^2(k))"
+        ]
+      },
+      "distribution_use_case": {
+        "correct": "正規母集団から標本分散 $S^2$ が得られた。母分散 $\\sigma^2$ の 95\\% 信頼区間を $\\frac{(n-1)S^2}{\\sigma^2}\\sim\\chi^2(n-1)$ を利用して求める",
+        "explanation": "$(n-1)S^2/\\sigma^2\\sim\\chi^2(n-1)$ が成り立つため、母分散の推定・検定に用いられる。",
+        "distractors": [
+          "正規母集団（母分散未知）の母平均 $\\mu$ の 95\\% 信頼区間を $\\frac{\\bar{X}-\\mu}{S/\\sqrt{n}}\\sim t(n-1)$ を利用して求める",
+          "2 つの正規母集団の母分散比 $\\sigma_1^2/\\sigma_2^2$ の等分散検定を $F=S_1^2/S_2^2\\sim F(n_1-1,n_2-1)$ を利用して行う",
+          "2 つの正規母集団（等分散）の母平均の差 $\\mu_1-\\mu_2$ の検定を合併分散を用いた $t$ 検定で行う",
+          "標本比率 $\\hat{p}$ から母比率 $p$ の 95\\% 信頼区間を正規分布近似 $\\hat{p}\\approx N(p,p(1-p)/n)$ で求める"
+        ]
+      }
+    },
+    {
+      "id": "t",
+      "name": "t分布",
+      "notation": "t(k)",
+      "applicable_question_types": ["distribution_summary", "distribution_use_case"],
+      "keywords": "標準正規変数をカイ二乗変数の平方根で除した分布。自由度 $k$ を持つ",
+      "scenarios": [],
+      "distribution_summary": {
+        "correct": "T = \\dfrac{Z}{\\sqrt{V/k}} \\quad (Z\\sim N(0,1),\\; V\\sim\\chi^2(k),\\; \\text{互いに独立})",
+        "explanation": "$E[T]=0$（$k>1$）、$V[T]=\\frac{k}{k-2}$（$k>2$）。$k\\to\\infty$ で標準正規分布に収束。",
+        "distractors": [
+          "T = \\dfrac{Z}{\\sqrt{V}} \\quad (Z\\sim N(0,1),\\; V\\sim\\chi^2(k))",
+          "T = Z\\cdot\\sqrt{V/k} \\quad (Z\\sim N(0,1),\\; V\\sim\\chi^2(k))",
+          "T = \\dfrac{Z^2}{\\sqrt{V/k}} \\quad (Z\\sim N(0,1),\\; V\\sim\\chi^2(k))",
+          "F = \\dfrac{V_1/k_1}{V_2/k_2} \\quad (V_1\\sim\\chi^2(k_1),\\; V_2\\sim\\chi^2(k_2))"
+        ]
+      },
+      "distribution_use_case": {
+        "correct": "正規母集団（母分散未知）の母平均 $\\mu$ の 95\\% 信頼区間を $\\frac{\\bar{X}-\\mu}{S/\\sqrt{n}}\\sim t(n-1)$ を利用して求める",
+        "explanation": "$\\sigma^2$ 未知のとき $S$ で代替すると $t$ 分布が生じる。標本サイズが小さい場合に重要。",
+        "distractors": [
+          "正規母集団から標本分散 $S^2$ が得られた。母分散 $\\sigma^2$ の 95\\% 信頼区間を $\\frac{(n-1)S^2}{\\sigma^2}\\sim\\chi^2(n-1)$ を利用して求める",
+          "2 つの正規母集団の母分散比 $\\sigma_1^2/\\sigma_2^2$ の等分散検定を $F=S_1^2/S_2^2\\sim F(n_1-1,n_2-1)$ を利用して行う",
+          "複数グループの母平均の差を一元配置分散分析（ANOVA）の $F$ 検定で調べる",
+          "標本比率 $\\hat{p}$ から母比率 $p$ の 95\\% 信頼区間を正規分布近似で求める"
+        ]
+      }
+    },
+    {
+      "id": "f",
+      "name": "F分布",
+      "notation": "F(k_1,k_2)",
+      "applicable_question_types": ["distribution_summary", "distribution_use_case"],
+      "keywords": "2 つの独立なカイ二乗変数の比（各々自由度で除したもの）の分布",
+      "scenarios": [],
+      "distribution_summary": {
+        "correct": "F = \\dfrac{V_1/k_1}{V_2/k_2} \\quad (V_1\\sim\\chi^2(k_1),\\; V_2\\sim\\chi^2(k_2),\\; \\text{互いに独立})",
+        "explanation": "$E[F]=\\frac{k_2}{k_2-2}$（$k_2>2$）。$F(1,k)=\\{t(k)\\}^2$ の関係がある。",
+        "distractors": [
+          "F = \\dfrac{V_1/k_2}{V_2/k_1} \\quad (V_1\\sim\\chi^2(k_1),\\; V_2\\sim\\chi^2(k_2))",
+          "F = \\dfrac{V_1\\cdot k_1}{V_2\\cdot k_2} \\quad (V_1\\sim\\chi^2(k_1),\\; V_2\\sim\\chi^2(k_2))",
+          "T = \\dfrac{Z}{\\sqrt{V/k}} \\quad (Z\\sim N(0,1),\\; V\\sim\\chi^2(k))",
+          "F = \\dfrac{V_1+k_1}{V_2+k_2} \\quad (V_1\\sim\\chi^2(k_1),\\; V_2\\sim\\chi^2(k_2))"
+        ]
+      },
+      "distribution_use_case": {
+        "correct": "2 つの正規母集団の母分散比 $\\sigma_1^2/\\sigma_2^2$ の等分散検定を $F=\\frac{S_1^2}{S_2^2}\\sim F(n_1-1,n_2-1)$ を利用して行う",
+        "explanation": "$S_1^2/\\sigma_1^2$ と $S_2^2/\\sigma_2^2$ がそれぞれカイ二乗分布に比例するため、その比が $F$ 分布に従う。",
+        "distractors": [
+          "正規母集団（母分散未知）の母平均 $\\mu$ の 95\\% 信頼区間を $\\frac{\\bar{X}-\\mu}{S/\\sqrt{n}}\\sim t(n-1)$ を利用して求める",
+          "正規母集団から標本分散 $S^2$ が得られた。母分散 $\\sigma^2$ の区間推定を $\\frac{(n-1)S^2}{\\sigma^2}\\sim\\chi^2(n-1)$ を利用して行う",
+          "2 標本の母平均の差の検定を等分散を仮定した合併分散による $t$ 検定で行う",
+          "標本比率 $\\hat{p}$ から母比率 $p$ の 95\\% 信頼区間を正規分布近似で求める"
+        ]
+      }
+    }
+  ]
+}
