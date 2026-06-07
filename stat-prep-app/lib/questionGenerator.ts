@@ -96,8 +96,14 @@ function assignOptionLabels(
 }
 
 // ─── メイン生成関数 ───────────────────────────────────────
-export function generateQuestionSet(formatData: ChapterFormat): QuestionSet {
-  const dist = randomElement(formatData.distributions);
+export function generateQuestionSet(
+  formatData: ChapterFormat,
+  targetDistributionId?: string
+): QuestionSet {
+  const dist = targetDistributionId
+    ? (formatData.distributions.find((d) => d.id === targetDistributionId) ??
+        randomElement(formatData.distributions))
+    : randomElement(formatData.distributions);
   const scenario = randomElement(dist.scenarios);
   const category =
     CHAPTER_TO_CATEGORY[formatData.chapter] ?? "確率と確率分布";

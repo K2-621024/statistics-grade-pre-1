@@ -1,8 +1,29 @@
 "use client";
 import { useState, useEffect } from "react";
-import { Calendar, CheckCircle } from "lucide-react";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+  Legend,
+} from "recharts";
 import BottomNav from "@/components/BottomNav";
 import { getHistory, type SessionRecord } from "@/lib/storage";
+
+const CHAPTER_COLORS: Record<number, string> = {
+  5:  "#3b82f6",
+  6:  "#10b981",
+  7:  "#f59e0b",
+  8:  "#ef4444",
+  9:  "#8b5cf6",
+  10: "#06b6d4",
+};
+
+function getChapterColor(chapterId: number): string {
+  return CHAPTER_COLORS[chapterId] ?? "#6b7280";
+}
 
 export default function HistoryPage() {
   const [history, setHistory] = useState<SessionRecord[]>([]);
@@ -11,12 +32,30 @@ export default function HistoryPage() {
     setHistory(getHistory());
   }, []);
 
+  const dateChapterMap: Record<string, Record<string, number>> = {};
+  for (const record of history) {
+    if (!dateChapterMap[record.date]) dateChapterMap[record.date] = {};
+    const chKey = `ch${record.chapterId}`;
+    dateChapterMap[record.date][chKey] =
+      (dateChapterMap[record.date][chKey] ?? 0) + 1;
+  }
+
+  const sortedDates = Object.keys(dateChapterMap).sort();
+  const allChapters = [...new Set(history.map((r) => r.chapterId))].sort(
+    (a, b) => a - b
+  );
+
+  const chartData = sortedDates.map((date) => ({
+    date: date.slice(5),
+    ...dateChapterMap[date],
+  }));
+
   return (
     <main className="min-h-screen flex flex-col pb-20">
       <div className="max-w-lg mx-auto w-full px-4 pt-6">
         <div className="mb-6">
-          <h1 className="text-xl font-bold text-gray-800">学習履歴</h1>
-          <p className="text-sm text-gray-500">過去のセット結果</p>
+          <h1 className="text-xl font-bold text-gray-900">学習履歴</h1>
+          <p className="text-sm text-gray-600">日別の進捗グラフ</p>
         </div>
 
         {history.length === 0 ? (
@@ -26,47 +65,32 @@ export default function HistoryPage() {
             <p className="text-xs mt-1">トップから学習を始めましょう！</p>
           </div>
         ) : (
-          <div className="space-y-3">
-            {history.map((record, i) => {
-              const pct = Math.round((record.score / record.total) * 100);
-              const good = pct >= 80;
-              return (
-                <div
-                  key={i}
-                  className="bg-white rounded-xl shadow px-4 py-3 flex items-center gap-4"
-                >
-                  <div
-                    className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm shrink-0 ${
-                      good
-                        ? "bg-green-100 text-green-700"
-                        : "bg-orange-100 text-orange-700"
-                    }`}
-                  >
-                    {pct}%
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm font-semibold text-gray-800 truncate">
-                      {record.distributionName}
-                    </p>
-                    <div className="flex items-center gap-2 mt-0.5">
-                      <Calendar size={12} className="text-gray-400" />
-                      <span className="text-xs text-gray-400">
-                        {record.date}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="text-right shrink-0">
-                    <p className="text-sm font-bold text-gray-700">
-                      {record.score} / {record.total}
-                    </p>
-                    <CheckCircle
-                      size={14}
-                      className={good ? "text-green-500 ml-auto" : "text-gray-300 ml-auto"}
-                    />
-                  </div>
-                </div>
-              );
-            })}
+          <div className="bg-white rounded-xl shadow p-4">
+            <p className="text-xs text-gray-500 mb-3">解いた大問数（章別）</p>
+            <ResponsiveContainer width="100%" height={240}>
+              <BarChart
+                data={chartData}
+                margin={{ top: 4, right: 8, bottom: 4, left: 0 }}
+              >
+                <XAxis dataKey="date" tick={{ fontSize: 11 }} />
+                <YAxis
+                  allowDecimals={false}
+                  tick={{ fontSize: 11 }}
+                  width={24}
+                />
+                <Tooltip />
+                <Legend iconSize={10} wrapperStyle={{ fontSize: 11 }} />
+                {allChapters.map((ch) => (
+                  <Bar
+                    key={ch}
+                    dataKey={`ch${ch}`}
+                    name={`第${ch}章`}
+                    stackId="stack"
+                    fill={getChapterColor(ch)}
+                  />
+                ))}
+              </BarChart>
+            </ResponsiveContainer>
           </div>
         )}
       </div>

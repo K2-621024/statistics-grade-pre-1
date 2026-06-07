@@ -34,12 +34,15 @@
 | T001 | 高 | stat-prep-app | UX改善 | 問題間で直前の問題の正答と解説を確認してから次へ進む導線に変更する | 小 | 高 | Completed |
 | T002 | 高 | stat-prep-app | UX改善 | 選択肢タップ → 「回答する」ボタン押下 → 正誤表示、という2ステップ導線に変更する | 小 | 高 | Completed |
 | T003 | 高 | stat-prep-app | UX改善 | 選択肢テキストの文字色が薄すぎるため視認性を改善する | 小 | 高 | Completed |
-| T004 | 高 | stat-prep-app | バグ修正 | ScenarioBanner に分布名が表示されており Q1（分布名を問う問題）の答えがリークしている | 小 | 高 | Completed |
-| T005 | 高 | stat-prep-app | バグ修正 | 選択肢の数式が LaTeX 記法のまま表示されている（KaTeX でレンダリングされていない） | 小 | 高 | Completed |
-| T006 | 高 | stat-prep-app | 環境整備 | スマートフォンで動作確認できる環境を整える（Vercel デプロイ推奨） | 小 | 高 | In Progress |
-| T007 | 中 | stat-prep-app | コンテンツ | constants.ts の CHEAT_SHEET_TEXTS に第6章以降のチートシートテキストを追加する | 中 | 高 | Not Started |
-| T008 | 中 | stat-prep-app | テスト | npm run build && npm run start で PWA 本番モード（Service Worker・オフライン）の動作を確認する | 小 | 高 | Not Started |
-| T009 | 中 | stat-prep-app | データ整備 | ch06.json（連続分布・標本分布）の question_format を作成してアプリに追加する | 大 | 高 | Not Started |
-| T010 | 低 | 演習問題 | コンテンツ | ch0_Template.md のフォーマットに従って ch7〜ch32 の演習問題ファイルを順次作成する | 大 | 高 | In Progress |
-| T011 | 高 | stat-prep-app | UX改善 | 選択肢を選択した後に変更できない | 小 | 高 | Completed |
-| T012 | 高 | stat-prep-app | バグ修正 | 確率関数の不正解選択肢に "k=1, 2, ..." が表示されていない、それで判断できてしまう | 小 | 高 | Completed |
+| T004 | 高 | stat-prep-app | バグ修正 | ScenarioBanner の分布名表示による Q1 の答えリークを修正する | 小 | 高 | Completed |
+| T005 | 高 | stat-prep-app | バグ修正 | 選択肢の数式を KaTeX でレンダリングされるよう修正する | 小 | 高 | Completed |
+| T006 | 高 | stat-prep-app | 環境整備 | スマートフォンで動作確認できる環境を整える（Vercel デプロイ推奨） | 小 | 高 | Completed |
+| T011 | 高 | stat-prep-app | UX改善 | 選択肢を選択した後に変更できないバグを修正する | 小 | 高 | Completed |
+| T012 | 高 | stat-prep-app | バグ修正 | 確率関数の不正解選択肢に "k=1, 2, ..." を表示して答えが推測できないよう修正する | 小 | 高 | Completed |
+| T009 | 中 | stat-prep-app | データ整備 | ch06.json（連続分布・標本分布）の question_format を作成してアプリに追加する | 大 | 高 | In Progress |
+| T013 | 高 | stat-prep-app | UX改善 | 履歴ページを日次の進捗グラフ（縦軸：解いた大問数、横軸：日付）に変更する | 小 | 高 | Completed |
+| T014 | 高 | stat-prep-app | コンテンツ | 履歴グラフを章別に色分けした積み上げグラフに変更する | 小 | 高 | Completed |
+| T015 | 高 | stat-prep-app | コンテンツ | チートシートのアンロック機能を削除する | 小 | 高 | Completed |
+| T016 | 高 | stat-prep-app | バグ修正 | デイリーミッションの目標値をこれまでの日次平均回答数に自動設定する | 小 | 高 | Completed |
+| T017 | 高 | stat-prep-app | UX改善 | 各ページのタイトル文字色を視認性の高い色に修正する | 小 | 高 | Completed |
+| T018 | 高 | stat-prep-app | バグ修正 | デイリーミッションの進捗カウントが更新されないバグを修正する | 小 | 高 | Completed |

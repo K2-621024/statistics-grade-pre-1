@@ -19,7 +19,6 @@ import {
   saveSession,
   updateWeaknessData,
   updateMasteryData,
-  checkAndUnlock,
   type DailyMissionState,
 } from "@/lib/storage";
 
@@ -30,8 +29,8 @@ type AppMode =
 
 const ALL_FORMAT_PATHS = ["/data/question_formats/ch05.json"];
 const ALL_DISTRIBUTION_KEYS = [
-  "5_discrete_uniform","5_hypergeometric","5_poisson","5_bernoulli",
-  "5_binomial","5_geometric","5_negative_binomial","5_multinomial",
+  "5_discrete_uniform", "5_hypergeometric", "5_poisson", "5_bernoulli",
+  "5_binomial", "5_geometric", "5_negative_binomial", "5_multinomial",
 ];
 
 export default function HomePage() {
@@ -55,8 +54,8 @@ export default function HomePage() {
     );
   }, []);
 
-  function startSession(format: ChapterFormat) {
-    const set = generateQuestionSet(format);
+  function startSession(format: ChapterFormat, distributionId?: string) {
+    const set = generateQuestionSet(format, distributionId);
     setMode({ kind: "session", set, qIndex: 0, answers: [] });
   }
 
@@ -72,10 +71,12 @@ export default function HomePage() {
       (k) => !mission.completedKeys.includes(k)
     );
     if (!nextKey) return;
-    const chId = Number(nextKey.split("_")[0]);
+    const [chIdStr, ...distParts] = nextKey.split("_");
+    const chId = Number(chIdStr);
+    const distId = distParts.join("_");
     const format = formats.find((f) => f.chapter === chId);
     if (!format) return;
-    startSession(format);
+    startSession(format, distId);
   }
 
   function handleAnswer(isCorrect: boolean) {
@@ -108,7 +109,6 @@ export default function HomePage() {
     });
     updateWeaknessData(set.chapterId, score, answers.length);
     updateMasteryData(key, score, answers.length);
-    checkAndUnlock();
 
     if (mission && mission.targetKeys.includes(key)) {
       markMissionSetComplete(key);
@@ -172,8 +172,8 @@ export default function HomePage() {
     <main className="min-h-screen flex flex-col pb-20">
       <div className="max-w-lg mx-auto w-full px-4 pt-6">
         <div className="mb-6">
-          <h1 className="text-xl font-bold text-gray-800">統計検定準1級</h1>
-          <p className="text-sm text-gray-500">対策学習アプリ</p>
+          <h1 className="text-xl font-bold text-gray-900">統計検定準1級</h1>
+          <p className="text-sm text-gray-600">対策学習アプリ</p>
         </div>
 
         <DailyMission mission={mission} onStart={startDailyMission} />

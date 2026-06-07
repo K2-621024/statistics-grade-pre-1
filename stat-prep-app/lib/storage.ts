@@ -133,6 +133,22 @@ export function generateDailyMission(availableKeys: string[]): DailyMissionState
   const masteryData = getMasteryData();
   const now = new Date().toISOString();
 
+  const history = getHistory();
+  const dateCounts: Record<string, number> = {};
+  for (const record of history) {
+    dateCounts[record.date] = (dateCounts[record.date] ?? 0) + 1;
+  }
+  const days = Object.keys(dateCounts);
+  const targetCount =
+    days.length > 0
+      ? Math.max(
+          1,
+          Math.round(
+            days.reduce((sum, d) => sum + dateCounts[d], 0) / days.length
+          )
+        )
+      : 2;
+
   const overdue = availableKeys.filter((key) => {
     const stat = masteryData[key];
     return stat && stat.nextReviewAt <= now;
@@ -146,12 +162,12 @@ export function generateDailyMission(availableKeys: string[]): DailyMissionState
     return ra - rb;
   });
 
-  let targets = sorted.slice(0, 2);
-  if (targets.length < 2) {
+  let targets = sorted.slice(0, targetCount);
+  if (targets.length < targetCount) {
     const remaining = shuffleArray(
       availableKeys.filter((k) => !targets.includes(k))
     );
-    targets = [...targets, ...remaining].slice(0, 2);
+    targets = [...targets, ...remaining].slice(0, targetCount);
   }
 
   const mission: DailyMissionState = {
