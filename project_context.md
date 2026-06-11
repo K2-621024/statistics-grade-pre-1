@@ -51,3 +51,8 @@
 | T021 | 高 | stat-prep-app | コンテンツ | 弱点分析ページのチートシートセクションを削除する | 小 | 高 | Completed |
 | T022 | 高 | stat-prep-app | UX改善 | 各ページのタイトル文字色を白に変更する | 小 | 高 | Completed |
 | T023 | 高 | stat-prep-app | バグ修正 | 弱点分析チャートの習熟度を3回以上連続正答した問題数の割合で算出するよう変更する | 小 | 高 | Completed |
+| T024 | 高 | stat-prep-app | UX改善 | t分布の選択肢で式と定義を改行して表示するよう修正する | 小 | 高 | Completed |
+| T025 | 高 | stat-prep-app | バグ修正 | "95％" が "95\%" と表示されているバグを修正する | 小 | 高 | Completed |
+| T026 | 高 | stat-prep-app | データ整備 | distribution_use_case の選択肢に含まれる分布記号（χ²・t・F）を除去し、用途を日本語で記述した選択肢に書き換えて答えリークを解消する | 小 | 高 | Completed |
+| T027 | 高 | stat-prep-app | UX改善 | 多変量正規分布の選択肢が見切れている表示を修正する | 小 | 高 | Completed |
+| T028 | 高 | stat-prep-app | UX改善 | ユーザーが選択した不正解の選択肢の説明を正誤表示画面に表示するよう実装する | 小 | 高 | Completed |

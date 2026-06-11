@@ -11,6 +11,7 @@ export type FormulaSet = {
   correct: string;
   explanation: string;
   distractors: string[];
+  distractor_explanations?: string[];
 };
 
 export type DistributionDef = {
@@ -43,6 +44,7 @@ export type Option = {
   id: "A" | "B" | "C" | "D" | "E";
   text: string;
   isCorrect: boolean;
+  explanation?: string;
 };
 
 export type GeneratedQuestion = {
@@ -71,6 +73,13 @@ function stripDomain(s: string): string {
 }
 
 function wrapMath(s: string): string {
+  const quadMatch = s.match(/^([\s\S]*?)\s*\\quad\s*(\(.+\))\s*$/);
+  if (quadMatch) {
+    const formula = quadMatch[1].trim();
+    const condition = quadMatch[2];
+    const f = formula.startsWith("$") ? formula : `$${formula}$`;
+    return `${f}\n$${condition}$`;
+  }
   const stripped = stripDomain(s);
   return stripped.startsWith("$") ? stripped : `$${stripped}$`;
 }
@@ -89,13 +98,14 @@ function shuffleArray<T>(arr: T[]): T[] {
 }
 
 function assignOptionLabels(
-  items: { text: string; isCorrect: boolean }[]
+  items: { text: string; isCorrect: boolean; explanation?: string }[]
 ): Option[] {
   const labels = ["A", "B", "C", "D", "E"] as const;
   return items.slice(0, 5).map((item, i) => ({
     id: labels[i],
     text: item.text,
     isCorrect: item.isCorrect,
+    explanation: item.explanation,
   }));
 }
 
@@ -145,9 +155,12 @@ export function generateQuestionSet(
 
       const wrap = qtId === "distribution_use_case" ? (s: string) => s : wrapMath;
 
-      const wrongOptions = shuffleArray(formulaSet.distractors)
-        .slice(0, 4)
-        .map((d) => ({ text: wrap(d), isCorrect: false }));
+      const distractorPairs = formulaSet.distractors.map((d, i) => ({
+        text: wrap(d),
+        isCorrect: false as const,
+        explanation: formulaSet.distractor_explanations?.[i],
+      }));
+      const wrongOptions = shuffleArray(distractorPairs).slice(0, 4);
 
       options = assignOptionLabels(
         shuffleArray([

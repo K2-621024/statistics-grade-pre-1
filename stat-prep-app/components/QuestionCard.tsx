@@ -97,7 +97,7 @@ export default function QuestionCard({
             className={`w-full text-left border-2 rounded-lg px-4 py-3 text-sm transition-all flex items-start gap-3 ${optionStyle(opt)}`}
           >
             <span className="font-bold min-w-[1.2rem]">{opt.id}.</span>
-            <span className="flex-1">
+            <span className="flex-1 min-w-0 overflow-x-auto">
               <MathText text={opt.text} />
             </span>
             {answered && opt.isCorrect && (
@@ -121,10 +121,21 @@ export default function QuestionCard({
       )}
 
       {/* 解説（answered 時） */}
-      {answered && (
-        <div className="mt-4 bg-yellow-50 border border-yellow-200 rounded-lg p-3 text-sm text-gray-700">
-          <p className="font-semibold text-yellow-800 mb-1">解説</p>
-          <MathText text={question.explanation} />
+      {answered && state.phase === "answered" && (
+        <div className="mt-4 space-y-2">
+          {!state.isCorrect && (() => {
+            const selectedOpt = question.options.find((o) => o.id === state.selectedId);
+            return selectedOpt?.explanation ? (
+              <div className="bg-orange-50 border border-orange-200 rounded-lg p-3 text-sm text-gray-700">
+                <p className="font-semibold text-orange-800 mb-1">この選択肢について</p>
+                <MathText text={selectedOpt.explanation} />
+              </div>
+            ) : null;
+          })()}
+          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 text-sm text-gray-700">
+            <p className="font-semibold text-yellow-800 mb-1">解説</p>
+            <MathText text={question.explanation} />
+          </div>
         </div>
       )}
 
